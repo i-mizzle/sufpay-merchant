@@ -6,6 +6,7 @@
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "v1",
     "@popperjs/core": "^2.11.8",
+    "ajv": "^8.17.1",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
     "jwt-decode": "^4.0.0",
