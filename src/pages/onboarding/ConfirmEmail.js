@@ -50,7 +50,7 @@ const ConfirmEmail = () => {
     }
     try {
       // const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/authentication/activate-account`, requestPayload, { headers })            
-      await axios.post(`${process.env.REACT_APP_BASE_URL}:${process.env.REACT_APP_AUTH_PORT}/activate-account`, requestPayload, { headers })            
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/authentication/activate-account`, requestPayload, { headers })            
       dispatch({
         type: SET_SUCCESS,
         payload:  'Account activated successfully, redirecting to log in'

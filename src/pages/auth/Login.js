@@ -60,7 +60,7 @@ const Login = () => {
 
     try {
       // const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/authentication/login`, requestPayload, { headers })            
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}:${process.env.REACT_APP_AUTH_PORT}/login`, requestPayload, { headers })            
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/authentication/login`, requestPayload, { headers })            
       // console.log(response.data.toke)
       localStorage.setItem("authToken", JSON.stringify(response.data.token));
       const decodedToken = jwtDecode(response.data.token)
@@ -99,7 +99,7 @@ const Login = () => {
     
     try {
         // const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/authentication/users/billers/${userCode}`, { headers })   
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}:${process.env.REACT_APP_BILLER_PORT}/biller/get/one/${billerId}`, { headers })   
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/billers/biller/get/one/${billerId}`, { headers })   
         console.log(response.data)
         localStorage.setItem("activeBusiness", JSON.stringify(response.data));
         navigate('/merchant')
