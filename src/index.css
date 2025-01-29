@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Poppins:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Host Grotesk', sans-serif;
+}
+
+ul, ul li, p, a, input, input::placeholder, label, input, select, span {
+  font-family: 'Poppins', sans-serif;
+  color: #12141B;
+}
+
+button, h1, h2, h3, h4 {
+  font-family: 'Host Grotesk', sans-serif;
+}
+
+.nav-button {
+  transition: all ease 200ms;
+}
+
+.nav-button .icon {
+  background-color: #12165b94;
+  transition: all ease 200ms;
+}
+
+.nav-button:hover {
+  color: #7d52ab;
+}
+
+.nav-button.active:hover .icon {
+  color: #000009;
+}
+
+.nav-button.active {
+  background-color: #ffffff1f;
+  color: #7d52ab;
+}
+
+input::placeholder {
+  color: #37373748;
+}
+
+.nav-button.active .icon {
+  background-color: #7d52ab;
+  color: #000009;
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: opacity(0.5);
+}
+
+.resolution-warning {
+  height: 80vh;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+/* WYSIWYG */
+div.ql-toolbar.ql-snow {
+  border: none;
+  text-align: right;
+  margin-bottom: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.ql-snow .ql-picker-label {
+  text-align: left;
+}
+
+.text-editor {
+  width: 100%;
+  margin: 0 auto;
+  /* box-shadow: 5px 5px 1px #000; */
+}
+
+.ql-container.ql-snow {
+  border: none !important;
+}
+
+.ql-editor {
+  min-height: 100px;
+  border-radius: 5px;
+  /* box-shadow: 0PX 0PX 5PX #00000033; */
+  border: 1px solid #bcbcbc;
+  padding: 25px !important;
+}
+
+.validation-error .ql-editor{
+  border: 1px solid #F26C6C;
+}
+
+.validation-error label {
+  color: #F26C6C;
+}
+
+.long-text .ql-editor {
+  min-height: 300px;
+  overflow-y: scroll;
+}
+
+
+.long-text .ql-editor {
+  min-height: 300px;
+  overflow-y: scroll;
+}
+
+.borderless .ql-editor {
+  border:none;
+  overflow:hidden;
+  height: inherit;
+}
+
+.shadow-custom {
+  box-shadow: 10px 0px 50px #360c594d;
+}

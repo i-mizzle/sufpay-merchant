@@ -1,0 +1,28 @@
+[
+    { "label": "Narcotic (Opioids)", "value": "narcotic" },
+    { "label": "Non-Narcotic Analgesic", "value": "non-narcotic-analgesics" },
+    { "label": "Non-Steroidal Anti-Inflammatory Drug (NSAIDs)", "value": "non-steroidal-anti-inflammatory-drug" },
+    { "label": "Antibiotic", "value": "antibiotic" },
+    { "label": "Antidepressant", "value": "antidepressant" },
+    { "label": "Antipsychotic", "value": "antipsychotic" },
+    { "label": "Anxiolytic and Sedative", "value": "anxiolytic-and-sedative" },
+    { "label": "Stimulant", "value": "stimulant" },
+    { "label": "Antihypertensive", "value": "antihypertensive" },
+    { "label": "Anticoagulant and Antiplatelet", "value": "anticoagulants-and-antiplatelet" },
+    { "label": "Anticonvulsant", "value": "anticonvulsant" },
+    { "label": "Hormone and Hormone Modifier", "value": "hormone-and-hormone-modifier" },
+    { "label": "Antidiabetic", "value": "antidiabetic" },
+    { "label": "Bronchodilator", "value": "bronchodilator" },
+    { "label": "Antiemetic", "value": "antiemetic" },
+    { "label": "Antihistamines", "value": "antihistamines" },
+    { "label": "Antifungals", "value": "antifungals" },
+    { "label": "Antivirals", "value": "antivirals" },
+    { "label": "Immunosuppressants", "value": "immunosuppressants" },
+    { "label": "Muscle Relaxants", "value": "muscle-relaxants" },
+    { "label": "Lipid-Lowering Drugs", "value": "lipid-lowering-drugs" },
+    { "label": "Antineoplastics", "value": "antineoplastics" },
+    { "label": "Ophthalmic Medications", "value": "ophthalmic-medications" }
+]
+
+
+  
