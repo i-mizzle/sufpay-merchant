@@ -6,7 +6,7 @@ export const fetchBillerCategories = (filterString, page, perPage) => async (dis
     try{
         const headers = authHeader()
 
-        let url = `${baseUrl}:${process.env.REACT_APP_BILLER_PORT}/biller-category/get/all?pagesize=1000&pagenumber=1000`
+        let url = `${baseUrl}/billers/biller-category/get/all?pagesize=1000&pagenumber=1000`
         if(filterString && filterString !== '') {
             url += `${url.includes('?') ? '&' : '?'}${filterString}`
         }
@@ -44,7 +44,7 @@ export const fetchBillerProfiles = (filterString, page, perPage) => async (dispa
     try{
         const headers = authHeader()
 
-        let url = `${baseUrl}:${process.env.REACT_APP_BILLER_PORT}/biller-profile/get/all`
+        let url = `${baseUrl}/billers/biller-profile/get/all`
         if(filterString && filterString !== '') {
             url += `${url.includes('?') ? '&' : '?'}${filterString}`
         }
@@ -87,7 +87,7 @@ export const createBiller = (payload) => async (dispatch) => {
             payload: true
         })
 
-        const response = await axios.post(`${baseUrl}:${process.env.REACT_APP_BILLER_PORT}/billers/biller/create`, payload, { headers })
+        const response = await axios.post(`${baseUrl}/billers/biller/create`, payload, { headers })
         
         dispatch({
             type: CREATE_BILLER,
