@@ -102,3 +102,10 @@ export const createBiller = (payload) => async (dispatch) => {
         })
     }
 }
+
+export const clearCreatedBiller = () => async (dispatch) => {    
+    dispatch({
+        type: CREATE_BILLER,
+        payload: null
+    })
+}

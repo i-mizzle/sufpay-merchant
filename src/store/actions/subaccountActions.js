@@ -1,12 +1,12 @@
 import axios from "axios"
-import { authHeader, baseUrl } from "../../utils"
+import { authHeader, baseUrl, activeBusiness } from "../../utils"
 import { CREATE_SUB_ACCOUNT, CREATING_SUB_ACCOUNT, FETCH_SUB_ACCOUNTS, FETCHING_SUB_ACCOUNTS, SUB_ACCOUNTS_ERROR, UPDATE_SUB_ACCOUNT, UPDATING_SUB_ACCOUNT } from "../types"
 
-export const fetchSubAccounts = (billerCode, filterString, page, perPage) => async (dispatch) => {    
+export const fetchSubAccounts = (filterString, page, perPage) => async (dispatch) => {    
     try{
         const headers = authHeader()
 
-        let url = `${baseUrl}/invoicing/invoices/biller/${billerCode}`
+        let url = `${baseUrl}/invoicing/invoices/biller/${activeBusiness().id}`
         if(filterString && filterString !== '') {
             url += `${url.includes('?') ? '&' : '?'}${filterString}`
         }

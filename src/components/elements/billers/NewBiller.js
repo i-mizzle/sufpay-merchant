@@ -94,8 +94,8 @@ const NewBiller = () => {
             </div>
 
             <div className='mt-5'>
-                  <FormButton buttonLabel={`Create Business`} buttonAction={()=>{pushBiller()}} processing={billersSelector.creatingBiller} />
-              </div>
+                <FormButton buttonLabel={`Create Business`} buttonAction={()=>{pushBiller()}} processing={billersSelector.creatingBiller} />
+            </div>
         </div>
     )
 }

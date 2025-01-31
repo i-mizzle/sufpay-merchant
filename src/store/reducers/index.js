@@ -2,11 +2,15 @@ import { combineReducers } from "redux";
 import { errorReducer } from "./errorReducer";
 import successReducer from "./successReducer";
 import billersReducer from "./billersReducer"
+import transactionsReducer from "./transactionsReducer";
+import customersReducer from "./customersReducer";
 
 const rootReducer = combineReducers({
     success: successReducer,
     errors: errorReducer,
-    billers: billersReducer
+    billers: billersReducer,
+    transactions: transactionsReducer,
+    customers: customersReducer
 });
 
 export default rootReducer;

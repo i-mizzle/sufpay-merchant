@@ -6,6 +6,7 @@ import { Popover } from '@headlessui/react'
 import { usePopper } from 'react-popper'
 import DotsVertical from './icons/DotsVertical';
 import Pagination from './Pagination';
+import EmptyFolder from './icons/EmptyFolder';
 
 const DataTable = ({
     tableData, 
@@ -108,8 +109,11 @@ const DataTable = ({
             {/* Table */}
             {!tableData || tableData.length === 0 ? 
 
-                <div className='px-44 py-4'>
-                    <p className="p-5 w-full text-xs text-center bg-black bg-opacity-20 rounded-lg mt-8">Sorry, no data available at the moment</p>
+                <div className='px-44 py-4 text-center'>
+                    <div className='mx-auto w-max'>
+                        <EmptyFolder className={`w-10 h-10 text-gray-400`} />
+                    </div>
+                    <p className="mt-2 w-full text-xs text-center bg-opacity-20 rounded-lg ">Sorry, no data available at the moment</p>
                 </div>
 
                 :

@@ -1,9 +1,226 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import MerchantLayout from '../../../components/layouts/MerchantLayout'
+import { useDispatch, useSelector } from 'react-redux'
+import { clearCreatedCustomer, fetchCustomers } from '../../../store/actions/customersActions'
+import Filters from '../../../components/elements/Filters'
+import ArrowUpTrayIcon from '../../../components/elements/icons/ArrowUpTrayIcon'
+import Loader from '../../../components/elements/Loader'
+import DataTable from '../../../components/elements/DataTable'
+import { tableHeadersFields } from '../../../utils'
+import EmptyState from '../../../components/elements/EmptyState'
+import ModalDialog from '../../../components/layouts/ModalDialog'
+import NewCustomer from '../../../components/elements/customers/NewCustomer'
+import { SET_SUCCESS } from '../../../store/types'
 
 const Customers = () => {
+  const dispatch = useDispatch()
+  const customersSelector = useSelector(state => state.customers)
+  const [perPage, setPerPage] = useState(25)
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const updatePerPage = (count) => {
+      setPerPage(count)
+  }
+
+  const updateCurrentPage = (count) => {
+      setCurrentPage(count)
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  const [activeFilters, setActiveFilters] = useState('');
+
+  const filters = [
+    {
+        name: 'marketplace',
+        linkType: 'text',
+        link: 'is',
+        type: 'binary',
+        options: ['Primary', 'Secondary'],
+        value: "",
+        displayValue: ""
+    },
+    {
+        name: 'marketplace',
+        linkType: 'text',
+        link: 'is',
+        type: 'binary',
+        options: ['Primary', 'Secondary'],
+        value: "",
+        displayValue: ""
+    },
+    {
+        name: 'offering type',
+        linkType: 'text',
+        link: 'is',
+        type: 'binary',
+        options: ['SAFE', 'Token', 'Both'],
+        value: "",
+        displayValue: ""
+    },
+    {
+        name: 'target raised',
+        linkType: 'option',
+        link: ['is greater than', 'is less than'],
+        type: 'number',
+        value: "",
+        displayValue: ""
+    },
+    {
+        name: 'price',
+        linkType: 'option',
+        link: ['is greater than', 'is less than'],
+        type: 'number',
+        value: "",
+        displayValue: ""
+    }
+]
+  useEffect(() => {
+    dispatch(fetchCustomers(activeFilters, currentPage, perPage))
+    if(customersSelector.createdCustomer && customersSelector.createdCustomer !== null){
+      dispatch(clearCreatedCustomer())
+      dispatch({
+        type: SET_SUCCESS,
+        payload: 'New customer created successfully'
+      })
+      setCreatingCustomer(false)
+    }
+  }, [perPage, currentPage, dispatch, activeFilters, customersSelector.createdCustomer])
+
+  const columnWidths = {
+    reference: 'w-2/12',
+    paymentFor: 'w-3/12',
+    status: 'w-1/12',
+    paidBy: 'w-2/12',
+    amount: 'w-1/12',
+    timeStamp: 'w-2/12',
+    '': 'w-1/12'
+  }
+
+  const tableOptions = {
+    selectable: false,
+    clickableRows: true,
+    rowAction: (index)=>{}
+  }
+
+
+  const cleanupData = (dataSet) => {
+    if(!dataSet) return
+      const data = []
+  
+      dataSet.forEach((item, itemIndex) => {
+        data.push(
+          {
+            // reference: <TransactionLink reference={item.transaction.transactionReference} index={itemIndex} />,
+            // paymentFor: <p>{item.fee?.name}: {item.application?.applicationCode}</p>,
+            // status: <Status status={item.transaction.status} />,
+            // paidBy: <div><p>{item.createdBy.name}</p><p className='text-sm text-gray-500 number'>
+            //     {item.createdBy.email}
+            // </p></div>,
+            // amount: <TransactionAmount amount={item.fee.amount ?  item.fee.amount : 0} />,
+            // timeStamp: `${new Date(item.createdAt).toDateString()} - ${new Date(item.createdAt).toLocaleTimeString()}`,
+            // '': item.applied ? 
+            // <> 
+            //     <span className={`inline-block text-xs px-2 py-1 rounded bg-gray-600 text-gray-500 bg-opacity-10 font-outfit capitalize`}>Used</span>
+            // </> 
+            // : 
+          // <>
+            //     <span className={`inline-block text-xs px-2 py-1 rounded bg-green-500 text-green-800 bg-opacity-10 font-outfit capitalize`}>Unused</span>
+            // </>
+          },
+        )
+      })
+    return data
+  }
+
+  const [creatingCustomer, setCreatingCustomer] = useState(false);
+
+
   return (
-    <MerchantLayout>Customers</MerchantLayout>
+    <>
+      <MerchantLayout>
+        <div className="w-full">
+          <div className='py-3 mb-5'>
+            <div className="w-full mx-auto">
+              <div className='w-full flex items-center justify-between'>
+                <div className='w-2/3'>
+                  <h4 className='font-medium text-lg mb-1 text-gray-400'>Customers</h4>
+                  <div className=''>
+                    <p className='text-gray-500 mt-1 text-[13px]'>
+                      Your customers on Sufpay. You can create a new customer by clicking on "Create Customer" or click on a customer listed below to see more details.
+                    </p>
+                  </div>
+                </div>
+                <button onClick={()=>{setCreatingCustomer(true)}} className='rounded-[8px] px-4 py-3 mt-4 text-sm text-gray-100 bg-sufpay-black transition duration-200 border border-sufpay-black hover:bg-accent hover:text-sufpay-black flex items-center justify-center gap-x-2'>
+                  Create a customer
+                </button>
+              </div>
+
+                <div className='w-full flex items-center justify-between my-5 p-2 rounded-md border'>
+                  <div className='w-full'>
+                    <Filters filterOptions={filters} />
+                  </div>
+                  <div className='w-full flex flex-row-reverse gap-x-2'>
+                    <button onClick={()=>{}} className={`text-gray-700 px-3 py-2 hover:bg-gray-100 transition duration-200 text-sm flex items-center justify-center gap-x-2 bg-gray-200 rounded border`}>
+                      <ArrowUpTrayIcon className={`w-5 h-5`} />
+                      Export customers
+                    </button>
+                      
+                    {/* <button onClick={()=>{setView('grid')}} className={`${view === 'grid' ? 'text-gray-700' : 'text-gray-300'} p-1 rounded hover:bg-gray-100 transition duration-200`}>
+                        <SquaresIcon className={`w-7 h-7`} />
+                    </button>
+
+                    <button onClick={()=>{setView('list')}} className={`${view === 'list' ? 'text-gray-700' : 'text-gray-300'} p-1 rounded hover:bg-gray-100 transition duration-200`}>
+                        <ViewListIcon className={`w-7 h-7`} />
+                    </button> */}
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div className=''>
+            {customersSelector.loadingCustomers
+              ? 
+                  <div className='w-full'>
+                      <Loader />
+                  </div>
+              : 
+              <>
+                  {customersSelector?.customers?.length > 0 ?<DataTable
+                      tableHeaders={tableHeadersFields(cleanupData(customersSelector?.customers)[0])?.headers} 
+                      tableData={cleanupData(customersSelector?.customers)} 
+                      columnWidths={columnWidths}
+                      columnDataStyles={{}}
+                      allFields={tableHeadersFields(cleanupData(customersSelector?.customers)[0]).fields}
+                      onSelectItems={()=>{}}
+                      tableOptions={tableOptions}
+                      pagination={{
+                          perPage, 
+                          currentPage,
+                          totalItems: customersSelector.customers.total,
+                      }}
+                      changePage={updateCurrentPage}
+                      updatePerPage={updatePerPage}
+                  /> :
+                    <EmptyState emptyStateText={`No customers on your account yet`} />
+                  }
+              </>
+            }
+          </div>
+        </div>
+      </MerchantLayout>
+
+      <ModalDialog
+        shown={creatingCustomer} 
+        closeFunction={()=>{setCreatingCustomer(false)}} 
+        actionFunction={()=>{}} 
+        actionFunctionLabel={``}
+        dialogTitle='Create a new customer for your business'
+        maxWidthClass='max-w-lg'
+        hideActions={true}
+      >
+        <NewCustomer />
+      </ModalDialog>
+    </>
   )
 }
 
