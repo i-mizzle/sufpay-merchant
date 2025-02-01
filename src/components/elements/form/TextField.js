@@ -27,12 +27,12 @@ const TextField = ({
 
     return (
         <div>
-            <label 
+            {inputLabel && inputLabel !== '' && <label 
                 className={`text-xs lg:text-md cursor-text z-10 relative py-1 transition mb-1 block duration-200  
                 ${hasError ? 'text-red-600' : 'text-gray-500'}`}
             >
              {requiredField && requiredField === true && <span className='text-red-600'>*</span>}   {inputLabel}
-            </label>
+            </label>}
 
             <input 
                 id={fieldId} 

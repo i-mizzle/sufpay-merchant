@@ -1,12 +1,12 @@
 import axios from "axios"
-import { authHeader, baseUrl } from "../../utils"
+import { authHeader, baseUrl, activeBusiness } from "../../utils"
 import { CREATE_INVOICE, CREATING_INVOICE, FETCHING_INVOICES, INVOICES_ERROR, UPDATE_INVOICE, UPDATING_INVOICE } from "../types"
 
-export const fetchInvoices = (billerCode, filterString, page, perPage) => async (dispatch) => {    
+export const fetchInvoices = (filterString, page, perPage) => async (dispatch) => {    
     try{
         const headers = authHeader()
 
-        let url = `${baseUrl}/invoicing/invoices/biller/${billerCode}`
+        let url = `${baseUrl}/billers/invoices/get/biller/${activeBusiness().id}`
         if(filterString && filterString !== '') {
             url += `${url.includes('?') ? '&' : '?'}${filterString}`
         }
@@ -49,7 +49,7 @@ export const createInvoice = (payload) => async (dispatch) => {
             payload: true
         })
 
-        const response = await axios.post(`${baseUrl}/invoices/create/with-items`, payload, { headers })
+        const response = await axios.post(`${baseUrl}/billers/invoices/create`, payload, { headers })
         
         dispatch({
             type: CREATE_INVOICE,

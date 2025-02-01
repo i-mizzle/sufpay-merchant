@@ -70,7 +70,7 @@ const Signup = () => {
 
   const signup = async  () => {
     const headers = {
-        'Content-Type': 'application/json'
+      'Content-Type': 'application/json'
     }
     
     if (Object.values(validateForm()).includes(true)) {

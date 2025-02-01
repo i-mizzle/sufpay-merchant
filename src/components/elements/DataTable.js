@@ -120,7 +120,7 @@ const DataTable = ({
                 
                 <div className="pt-2">
                     {/* table header */}
-                    <ul className="bg-gray-50 flex flex-row justify-between items-center w-full text-xs mt-1 px-3 py-2 relative font-[600]">
+                    <ul className="bg-gray-50 flex flex-row justify-between items-center w-full text-[11px] tracking-[0.1em] mt-1 px-3 py-2 relative font-[400]">
                        {/* <li className="w-1/12" />  */}
                         {tableOptions.selectable && tableOptions.multiselect && <input type="checkbox" className="mr-2 absolute left-0" onChange={()=>{toggleAllSelection()}} checked={tableData.length === selectedItemsCount} />}
                         {tableHeaders.map((header, headerIndex) => (
@@ -147,7 +147,7 @@ const DataTable = ({
                                     {...attributes.popper} 
                                     className="absolute z-10"
                                 >
-                                    <div className="bg-primary p-4 shadow-md border rounded border-secondary mt-3">
+                                    <div className="bg-white p-4 shadow-md border rounded shadow-black/10 mt-3">
                                         {/* {allFields.map((field, fieldIndex) => )} */}
                                         <p className="font-medium text-gray-400 text-sm pb-2 mb-2 border-b border-gray-200 text-center">All Fields</p>
 

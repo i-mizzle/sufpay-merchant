@@ -9,6 +9,7 @@ import ArrowUpTrayIcon from '../../../components/elements/icons/ArrowUpTrayIcon'
 import Filters from '../../../components/elements/Filters'
 import { SET_SUCCESS } from '../../../store/types'
 import { useDispatch, useSelector } from 'react-redux'
+import NewSubAccount from '../../../components/elements/sub-accounts/NewSubAccount'
 
 const SubAccounts = () => {
   const dispatch = useDispatch()
@@ -141,15 +142,16 @@ const SubAccounts = () => {
             <div className="w-full mx-auto">
               <div className='w-full flex items-center justify-between'>
                 <div className='w-2/3'>
-                  <h4 className='font-medium text-lg mb-1 text-gray-400'>Customers</h4>
+                  <h4 className='font-medium text-lg mb-1 text-gray-400'>Sub-accounts</h4>
                   <div className=''>
                     <p className='text-gray-500 mt-1 text-[13px]'>
-                      Your customers on Sufpay. You can create a new customer by clicking on "Create Customer" or click on a customer listed below to see more details.
+                      Your Sufpay Sub-accounts.<br/> 
+                      Sub-accounts are a great way to manage payment slips on sufpay as needed. You can create a new sub-account by clicking on "Create Sub-account" or click on a sub-account listed below to see more details and payouts.
                     </p>
                   </div>
                 </div>
                 <button onClick={()=>{setCreatingCustomer(true)}} className='rounded-[8px] px-4 py-3 mt-4 text-sm text-gray-100 bg-sufpay-black transition duration-200 border border-sufpay-black hover:bg-accent hover:text-sufpay-black flex items-center justify-center gap-x-2'>
-                  Create a customer
+                  Create new sub-account
                 </button>
               </div>
 
@@ -175,7 +177,7 @@ const SubAccounts = () => {
             </div>
           </div>
 
-          <div className=''>
+          {/* <div className=''>
             {customersSelector.loadingCustomers
               ? 
                   <div className='w-full'>
@@ -203,7 +205,8 @@ const SubAccounts = () => {
                   }
               </>
             }
-          </div>
+          </div> */}
+          <EmptyState emptyStateText={`No sub-accounts on your account yet`} />
         </div>
       </MerchantLayout>
 
@@ -216,7 +219,7 @@ const SubAccounts = () => {
         maxWidthClass='max-w-lg'
         hideActions={true}
       >
-        {/* <NewCustomer /> */}
+        <NewSubAccount />
       </ModalDialog>
     </>
   )

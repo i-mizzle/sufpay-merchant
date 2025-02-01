@@ -87,13 +87,11 @@ const Customers = () => {
   }, [perPage, currentPage, dispatch, activeFilters, customersSelector.createdCustomer])
 
   const columnWidths = {
-    reference: 'w-2/12',
-    paymentFor: 'w-3/12',
-    status: 'w-1/12',
-    paidBy: 'w-2/12',
-    amount: 'w-1/12',
-    timeStamp: 'w-2/12',
-    '': 'w-1/12'
+    name: 'w-3/12',
+    emailAddress: 'w-3/12',
+    phoneNumber: 'w-3/12',
+    transactions: 'w-2/12',
+    dateCreated: 'w-2/12'
   }
 
   const tableOptions = {
@@ -110,22 +108,11 @@ const Customers = () => {
       dataSet.forEach((item, itemIndex) => {
         data.push(
           {
-            // reference: <TransactionLink reference={item.transaction.transactionReference} index={itemIndex} />,
-            // paymentFor: <p>{item.fee?.name}: {item.application?.applicationCode}</p>,
-            // status: <Status status={item.transaction.status} />,
-            // paidBy: <div><p>{item.createdBy.name}</p><p className='text-sm text-gray-500 number'>
-            //     {item.createdBy.email}
-            // </p></div>,
-            // amount: <TransactionAmount amount={item.fee.amount ?  item.fee.amount : 0} />,
-            // timeStamp: `${new Date(item.createdAt).toDateString()} - ${new Date(item.createdAt).toLocaleTimeString()}`,
-            // '': item.applied ? 
-            // <> 
-            //     <span className={`inline-block text-xs px-2 py-1 rounded bg-gray-600 text-gray-500 bg-opacity-10 font-outfit capitalize`}>Used</span>
-            // </> 
-            // : 
-          // <>
-            //     <span className={`inline-block text-xs px-2 py-1 rounded bg-green-500 text-green-800 bg-opacity-10 font-outfit capitalize`}>Unused</span>
-            // </>
+            name: item.name,
+            emailAddress:item.emailAddress,
+            phoneNumber: item.phoneNumber,
+            transactions: <p className='text-[13px] font-host-grotesk font-[500]'>₦0 <span className='font-poppins font-[400] text-xs'>(0 transactions)</span></p>,
+            dateCreated: `${new Date(item.createdAt).toDateString()} - ${new Date(item.createdAt).toLocaleTimeString()}`,
           },
         )
       })
@@ -139,7 +126,7 @@ const Customers = () => {
     <>
       <MerchantLayout>
         <div className="w-full">
-          <div className='py-3 mb-5'>
+          <div className='py-3 mb-1'>
             <div className="w-full mx-auto">
               <div className='w-full flex items-center justify-between'>
                 <div className='w-2/3'>
@@ -155,7 +142,7 @@ const Customers = () => {
                 </button>
               </div>
 
-                <div className='w-full flex items-center justify-between my-5 p-2 rounded-md border'>
+                <div className='w-full flex items-center justify-between mt-5 mb-2 p-2 rounded-md border'>
                   <div className='w-full'>
                     <Filters filterOptions={filters} />
                   </div>
@@ -185,7 +172,7 @@ const Customers = () => {
                   </div>
               : 
               <>
-                  {customersSelector?.customers?.length > 0 ?<DataTable
+                  {customersSelector?.customers?.length > 0 ? <DataTable
                       tableHeaders={tableHeadersFields(cleanupData(customersSelector?.customers)[0])?.headers} 
                       tableData={cleanupData(customersSelector?.customers)} 
                       columnWidths={columnWidths}

@@ -6,13 +6,14 @@ import PasswordField from '../../components/elements/form/PasswordField'
 import FormButton from '../../components/elements/form/FormButton'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { ERROR } from '../../store/types'
+import { ERROR, FETCH_API_KEYS } from '../../store/types'
 import axios from 'axios'
 import EnvelopeIcon from '../../components/elements/icons/EnvelopeIcon'
 import PhoneIcon from '../../components/elements/icons/PhoneIcon'
 import Twitter from '../../assets/img/twitter.svg'
 import Linkedin from '../../assets/img/linkedin.svg'
 import { jwtDecode } from 'jwt-decode'
+import { createApiKeys } from '../../store/actions/paymentsActions'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -102,8 +103,7 @@ const Login = () => {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/billers/biller/get/one/${billerId}`, { headers })   
         console.log(response.data)
         localStorage.setItem("activeBusiness", JSON.stringify(response.data));
-        navigate('/merchant')
-
+        fetchApiKeys(token, billerId)
         // navigate("/admin")
     } catch (error) {
         dispatch({
@@ -113,6 +113,32 @@ const Login = () => {
         setProcessing(false)
     }
   }
+
+  const fetchApiKeys = async (token, billerId) => {    
+    try{
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+
+      let url = `${process.env.REACT_APP_BASE_URL}/payments/api-keys/get/biller/${billerId}`
+
+      const response = await axios.get(url, { headers })
+      console.log('api keys response: ', response)
+      
+      dispatch({
+        type: FETCH_API_KEYS,
+        payload: response.data
+      })
+      navigate('/merchant')
+        
+    }
+    catch(error){
+      console.error(error)
+      dispatch(createApiKeys({billerId}))
+      navigate('/merchant')
+    }
+}
   return (
     <div className='w-full flex items-start min-h-screen justify-between'>
       <div className='h-screen w-1/3 bg-primary py-[20px] px-[50px] relative'>
