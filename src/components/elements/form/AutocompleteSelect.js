@@ -15,6 +15,7 @@ const AutocompleteSelect = ({
     preSelected, 
     preSelectedLabel,
     hasError, 
+    placeholderText,
     returnFieldValue,
     includeButton,
     buttonLabel,
@@ -24,7 +25,7 @@ const AutocompleteSelect = ({
     conditionalItemStyling,
     clearProcessingItem
 }) => {
-    const [activeValue, setActiveValue] = useState(preSelected[preSelectedLabel] || '')
+    const [activeValue, setActiveValue] = useState(preSelectedLabel ? preSelected[preSelectedLabel] : '')
     const [visibleOptions, setVisibleOptions] = useState(selectOptions)
     const [optionsOpen, setOptionsOpen] = useState(false)
 
@@ -102,7 +103,7 @@ const AutocompleteSelect = ({
             >
                 {/* ${isFocused || activeValue !== '' ? '-translate-y-8 bg-white' : 'translate-y-0 bg-gray-100'}   */}
                 <label 
-                className={`text-sm lg:text-md cursor-text block bg-transparent relative py-1 transition duration-200  
+                className={`text-xs cursor-text block bg-transparent relative py-1 transition duration-200  
                 ${hasError ? 'text-red-600' : 'text-gray-500'}`}>
                     {requiredField && requiredField === true && <span className='text-red-600'>*</span>} {inputLabel}
                 </label>
@@ -110,10 +111,11 @@ const AutocompleteSelect = ({
                 {/* Text input */}
                 <input 
                     type="text" 
-                    className={`rounded py-3 px-3 block w-full focus:border-gray-800 focus:outline-none hover:border-gray-200 hover:bg-gray-50 border bg-gray-100  transition duration-200 focus:bg-white text-sm font-outfit placeholder:font-outfit  ${hasError ? 'border-red-600' : 'border-gray-100'}`}
+                    className={`placeholder:text-xs rounded py-3 px-3 text-sm block w-full focus:border-gray-800 focus:outline-none hover:border-gray-200 hover:bg-gray-50 border bg-white  transition duration-200 border-gray-500 focus:bg-white font-outfit placeholder:font-outfit  ${hasError ? 'border-red-600' : 'border-gray-500'}`} 
                     onClick={()=>{openOptions()}}  
                     onFocus={()=>{openOptions()}}  
                     readOnly={disabled}
+                    placeholder={placeholderText}
                     // onBlur={()=>{closeOptions()}} 
                     onChange={(e)=>{filterOptions(e.target.value)}}
                     value={activeValue} 

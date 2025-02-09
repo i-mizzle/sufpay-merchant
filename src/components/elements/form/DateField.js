@@ -29,7 +29,7 @@ const DateField = ({
             <input 
                 id={fieldId} 
                 type="date" 
-                className={`placeholder:text-xs rounded py-3 px-3 text-sm block w-full focus:border-gray-800 focus:outline-none hover:border-gray-200 hover:bg-gray-50 border bg-white  transition duration-200 border-gray-500 focus:bg-white font-outfit placeholder:font-outfit  ${hasError ? 'border-red-600' : 'border-gray-500'}`}
+                className={`placeholder:text-xs rounded py-3 px-3 text-[13px] block w-full focus:border-gray-800 focus:outline-none hover:border-gray-200 hover:bg-gray-50 border bg-white  transition duration-200 border-gray-500 focus:bg-white font-outfit placeholder:font-outfit ${hasError ? 'border-red-600' : 'border-gray-500'}`}
                 onChange={(e)=>{setValue(e.target.value)}}
                 value={fieldValue}
                 disabled={disabled}

@@ -6,7 +6,8 @@ import AutocompleteSelect from '../form/AutocompleteSelect';
 import { authHeader } from '../../../utils';
 import { ERROR } from '../../../store/types';
 import axios from 'axios';
-// import { fetchBanks } from '../../../store/actions/paymentsActions';
+import { fetchBanks } from '../../../store/actions/paymentsActions';
+import FormButton from '../form/FormButton';
 
 const NewSubAccount = () => {
     const dispatch = useDispatch()
@@ -23,7 +24,7 @@ const NewSubAccount = () => {
     //   }
 
     useEffect(() => {
-        // dispatch(fetchBanks())
+        dispatch(fetchBanks())
         return () => {
             
         };
@@ -89,7 +90,7 @@ const NewSubAccount = () => {
     return (
         <div className='w-full'>
             <p className='text-[13px] text-gray-500'>Please provide business information and bank account details to proceed</p>
-            <div className='mt-4'>
+            {/* <div className='mt-4'>
                 <TextField
                     inputLabel="Business Name" 
                     fieldId="business-name" 
@@ -100,6 +101,31 @@ const NewSubAccount = () => {
                     returnFieldValue={(value)=>{setAccountPayload({...accountPayload, ...{name: value}})}}
                 />
                 <label className='block mt-2 text-xs text-gray-400'>Should correspond with the name on the business bank account</label>
+            </div> */}
+            <div className='mt-4'>
+                {paymentsSelector?.loadingBanks ? 
+                    <div className='w-max mx-auto'>
+                        <InlinePreloader /> 
+                    </div>
+                    :
+                    <>
+                        {paymentsSelector?.banks?.length > 0 && <div className='w-full mt-2'>
+                            <AutocompleteSelect
+                                selectOptions={paymentsSelector?.banks}
+                                inputLabel="Bank"
+                                titleField="name"
+                                displayImage={false}
+                                imageField=""
+                                placeholderText={`Select bank`}
+                                // preSelectedIndex={complexions.findIndex(item => item.value === applicationPayload.complexion)}
+                                preSelectedIndex={null}
+                                fieldId="account-bank"
+                                hasError={validationErrors && validationErrors.billerCategory}
+                                returnFieldValue={(value) => {setAccountPayload({...accountPayload, ...{bankCode: value.id}})}}
+                            />
+                        </div>}
+                    </>
+                }
             </div>
             <div className='mt-4'>
                 <TextField
@@ -111,32 +137,11 @@ const NewSubAccount = () => {
                     hasError={validationErrors && validationErrors.accountNumber} 
                     returnFieldValue={(value)=>{setAccountPayload({...accountPayload, ...{name: value}})}}
                 />
-                <label className='block mt-2 text-xs text-gray-400'>Should correspond with the name on the business bank account</label>
+                {/* <label className='block mt-2 text-xs text-gray-400'>Should correspond with the name on the business bank account</label> */}
             </div>
-            <div className='mt-4'>
-                {paymentsSelector?.loadingBanks ? 
-                    <div className='w-max mx-auto'>
-                        <InlinePreloader /> 
-                    </div>
-                    :
-                    <>
-                        {paymentsSelector?.banks?.length > 0 && <div className='w-full mt-2'>
-                            <AutocompleteSelect
-                                selectOptions={paymentsSelector?.bank}
-                                inputLabel="Business Category"
-                                titleField="name"
-                                displayImage={false}
-                                imageField=""
-                                placeholderText={`Select business category`}
-                                // preSelectedIndex={complexions.findIndex(item => item.value === applicationPayload.complexion)}
-                                preSelectedIndex={null}
-                                fieldId="applicant-complexion"
-                                hasError={validationErrors && validationErrors.billerCategory}
-                                returnFieldValue={(value) => {setAccountPayload({...accountPayload, ...{bankCode: value.id}})}}
-                            />
-                        </div>}
-                    </>
-                }
+            
+            <div className='mt-5'>
+                <FormButton buttonLabel={`Create Sub-account`} buttonAction={()=>{pushSubAccount()}} processing={paymentsSelector.creatingSubAccount} />
             </div>
         </div>
     )

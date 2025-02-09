@@ -8,7 +8,7 @@ import TrashIcon from '../icons/TrashIcon';
 import DateField from '../form/DateField';
 import { ERROR } from '../../../store/types';
 import { createInvoice } from '../../../store/actions/invoicesActions';
-import { activeBusiness } from '../../../utils';
+import { activeBusiness, sanitizePayload } from '../../../utils';
 
 const NewInvoice = () => {
     const dispatch = useDispatch()
@@ -110,10 +110,12 @@ const NewInvoice = () => {
             invoiceRecipient: invoiceRecipient,
             totalAmount: invoiceTotal(),
             hasDueDate: invoiceDueDate && invoiceDueDate !== '',
-            dueDate: invoiceDueDate
+            dueDate: invoiceDueDate,
+            discountValue: 0
         }
+        
 
-        dispatch(createInvoice(payload))
+        dispatch(createInvoice(sanitizePayload(payload)))
     }
 
     return (
@@ -127,7 +129,7 @@ const NewInvoice = () => {
                         preloadValue={''}
                         inputPlaceholder={'Customer or business name'}
                         hasError={validationErrors && validationErrors.name} 
-                        returnFieldValue={(value)=>{setInvoiceRecipient({...invoiceRecipient, ...{fullName: value}})}}
+                        returnFieldValue={(value)=>{setInvoiceRecipient({...invoiceRecipient, ...{name: value}})}}
                     />
                 </div>
                 <div className='mt-2 w-full'>
@@ -172,7 +174,7 @@ const NewInvoice = () => {
                         inputType="text" 
                         preloadValue={''}
                         inputPlaceholder={'Select due date'}
-                        hasError={validationErrors && validationErrors.name} 
+                        hasError={validationErrors && validationErrors.date} 
                         returnFieldValue={(value)=>{setInvoiceDueDate(new Date(value))}}
                     />
                 </div>
@@ -189,7 +191,7 @@ const NewInvoice = () => {
                     <p className='text-gray-500 text-xs'>Quantity </p>
                 </div>
                 <div className='mt-2 w-[250px]'>
-                    <p className='text-gray-500 text-xs'>Unit price ()</p>
+                    <p className='text-gray-500 text-xs'>Unit price (₦)</p>
                 </div>
             </div>
             {invoiceItems.map((item, itemIndex)=>(<div key={itemIndex} className='w-full flex items-center justify-between gap-x-[10px]'>

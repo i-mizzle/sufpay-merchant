@@ -5,6 +5,9 @@ import billersReducer from "./billersReducer"
 import transactionsReducer from "./transactionsReducer";
 import customersReducer from "./customersReducer";
 import invoicesReducer from "./invoicesReducer";
+import paymentsReducer from "./paymentsReducer";
+import paymentPagesReducer from "./paymentPagesReducer";
+import paymentItemsReducer from "./paymentItemsReducer";
 
 const rootReducer = combineReducers({
     success: successReducer,
@@ -12,7 +15,11 @@ const rootReducer = combineReducers({
     billers: billersReducer,
     transactions: transactionsReducer,
     customers: customersReducer,
-    invoices: invoicesReducer
+    invoices: invoicesReducer,
+    payments: paymentsReducer,
+    paymentPages: paymentPagesReducer,
+    paymentItems: paymentItemsReducer
+
 });
 
 export default rootReducer;

@@ -6,7 +6,7 @@ export const fetchBanks = () => async (dispatch) => {
     try{
         const headers = authHeader()
 
-        let url = `${baseUrl}/payments/banks`
+        let url = `${baseUrl}/payments/banks/get/all`
 
         dispatch({
             type: FETCHING_BANKS,
