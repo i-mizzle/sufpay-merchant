@@ -9,6 +9,7 @@ import DateField from '../form/DateField';
 import { ERROR } from '../../../store/types';
 import { createInvoice } from '../../../store/actions/invoicesActions';
 import { activeBusiness, sanitizePayload } from '../../../utils';
+import { Switch } from '@headlessui/react';
 
 const NewInvoice = () => {
     const dispatch = useDispatch()
@@ -107,16 +108,20 @@ const NewInvoice = () => {
         const payload = {
             billerId: activeBusiness().id,
             items: invoiceItems,
-            invoiceRecipient: invoiceRecipient,
-            totalAmount: invoiceTotal(),
+            customer: invoiceRecipient,
+            total: invoiceTotal(),
+            totalService: 0,
             hasDueDate: invoiceDueDate && invoiceDueDate !== '',
             dueDate: invoiceDueDate,
+            discountType: 'FIXED',
             discountValue: 0
         }
         
 
         dispatch(createInvoice(sanitizePayload(payload)))
     }
+
+    const [addDiscount, setAddDiscount] = useState(false);
 
     return (
         <div className='w-full'>
@@ -246,6 +251,35 @@ const NewInvoice = () => {
                 </div>
                 <div className='w-[50px]' />
             </div>
+
+            <div className='border-t w-full my-[15px]' />
+            <h3 className='text-[15px] mb-[10px]'>Invoice Discount</h3>
+            <div className="w-[95%] flex justify-between gap-x-4 mt-4 border-secondary border-opacity-50">
+                <div className='w-10/12'>
+                    <label className="block text-sm font-medium text-gray-700 font-sofia-pro">Add discount</label>
+                    <label className="text-xs text-gray-500 font-sofia-pro">Flip this switch if you would like to add a discount to this invoice.</label>
+                </div>
+                <div className='w-2/12 flex flex-row-reverse'>
+                    <Switch
+                        checked={addDiscount}
+                        onChange={()=>{setAddDiscount(!addDiscount)}}
+                        className={`${
+                            addDiscount ? 'bg-accent' : 'bg-gray-400'
+                        } relative inline-flex items-center h-5 rounded-full w-10`}
+                        >
+                        <span className="sr-only">Requires fee</span>
+                        <span
+                            className={`transform transition ease-in-out duration-200 ${
+                                addDiscount ? 'translate-x-6 bg-primary' : 'translate-x-1 bg-gray-600'
+                            } inline-block w-3 h-3 transform rounded-full`}
+                        />
+                    </Switch>
+                </div>
+            </div>
+
+            {addDiscount && <div className=''>
+
+            </div>}
 
             <div className='mt-5 flex flex-row-reverse pt-5 border-t'>
                 <div className='w-[200px]'>
