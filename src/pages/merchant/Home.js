@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MerchantLayout from '../../components/layouts/MerchantLayout'
 import TextField from '../../components/elements/form/TextField'
 import ClipboardCopyIcon from '../../components/elements/icons/ClipboardCopyIcon'
 import ChartIcon from '../../assets/img/icons/chart-2.svg'
 import { SET_SUCCESS } from '../../store/types'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import { fetchApiKeys } from '../../store/actions/paymentsActions'
+import { activeBusiness } from '../../utils'
+import Loader from '../../components/elements/Loader'
 
 const Home = () => {
+  const paymentsSelector = useSelector(state => state.payments)
   const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchApiKeys(activeBusiness().id))
+    return () => {
+      
+    };
+  }, [dispatch]);
   return (
     <MerchantLayout>
         <div className='w-full h-screen flex justify-center'>
@@ -23,7 +33,7 @@ const Home = () => {
             </p>
 
             <div className='w-10/12 mx-auto'>
-              <div className='w-full flex items-end justify-between gap-x-[5px] mb-[20px]'>
+              {/* <div className='w-full flex items-end justify-between gap-x-[5px] mb-[20px]'>
                 <div className='w-full'>
                   <TextField
                     inputLabel="Development Client Id" 
@@ -47,14 +57,17 @@ const Home = () => {
                     </button>
                   </CopyToClipboard>
                 </div>
-              </div>
-              <div className='w-full flex items-end justify-between gap-x-[5px]'>
+              </div> */}
+              {paymentsSelector.loadingApiKeys ? 
+                <Loader />
+              
+              : <div className='w-full flex items-end justify-between gap-x-[5px]'>
                 <div className='w-full'>
                   <TextField
                     inputLabel="Development API Key" 
-                    fieldId={`dev-client-id`}
+                    fieldId={`dev-api-key`}
                     inputType="text" 
-                    preloadValue={``}
+                    preloadValue={paymentsSelector?.apiKeys?.test}
                     inputPlaceholder={''}
                     hasError={false} 
                     disabled={true}
@@ -62,7 +75,7 @@ const Home = () => {
                   />
                 </div>
                 <div className='w-[51px]'>
-                  <CopyToClipboard text={`dev api key`}
+                  <CopyToClipboard text={paymentsSelector?.apiKeys?.test}
                     onCopy={() =>  dispatch({
                         type: SET_SUCCESS,
                         payload: `Development API Key copied to clipboard`
@@ -72,7 +85,7 @@ const Home = () => {
                     </button>
                   </CopyToClipboard>
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
         </div>

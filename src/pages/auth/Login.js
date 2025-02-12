@@ -124,7 +124,6 @@ const Login = () => {
       let url = `${process.env.REACT_APP_BASE_URL}/payments/api-keys/get/biller/${billerId}`
 
       const response = await axios.get(url, { headers })
-      console.log('api keys response: ', response)
       
       dispatch({
         type: FETCH_API_KEYS,
