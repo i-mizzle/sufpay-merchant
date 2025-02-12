@@ -28,12 +28,13 @@ import Signup from './pages/onboarding/Signup';
 import ConfirmEmail from './pages/onboarding/ConfirmEmail';
 import Transactions from './pages/merchant/transactions/Transactions';
 import Customers from './pages/merchant/customers/Customers';
-import SubAccounts from './pages/merchant/sub-accounts/SubAccounts';
 import Invoices from './pages/merchant/invoices/Invoices';
 import InvoiceDetails from './pages/merchant/invoices/InvoiceDetails';
 import PaymentPages from './pages/merchant/payment-pages/PaymentPages';
 import PaymentPageDetails from './pages/merchant/payment-pages/PaymentPageDetails';
 import PaymentItems from './pages/merchant/payment-items/PaymentItems';
+import PaymentItemDetails from './pages/merchant/payment-items/PaymenItemDetails';
+import SubAccounts from './pages/merchant/sub-accounts/SubAccounts';
 
 export default function App() {
   return (
@@ -61,9 +62,10 @@ export default function App() {
             <Route path="/merchant/invoices/:invoiceId" element={<InvoiceDetails />} />
 
             <Route path="/merchant/payment-pages" element={<PaymentPages />} />
-            <Route path="/merchant/paymentPages/:paymentPageId" element={<PaymentPageDetails />} />
+            <Route path="/merchant/payment-pages/:paymentPageId" element={<PaymentPageDetails />} />
             
             <Route path="/merchant/payment-items" element={<PaymentItems />} />
+            <Route path="/merchant/payment-items/:paymentItemId" element={<PaymentItemDetails />} />
 
             <Route path="/merchant/*" element={<MerchantErrorPage />} />
           </Route>

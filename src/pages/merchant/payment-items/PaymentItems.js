@@ -67,15 +67,15 @@ const PaymentItems = () => {
     const [activeFilters, setActiveFilters] = useState('');
     useEffect(() => {
         dispatch(fetchPaymentItems(activeFilters, currentPage, perPage))
-        dispatch(fetchPaymentItemCategories())
+
         if(paymentItemsSelector.createdPaymentItem && paymentItemsSelector.createdPaymentItem !== null){
-              dispatch(clearCreatedPaymentItem())
-              dispatch({
+            dispatch(clearCreatedPaymentItem())
+            dispatch({
                 type: SET_SUCCESS,
                 payload: 'New payment item created successfully'
-              })
-              setCreatingPaymentItem(false)
-            }
+            })
+            setCreatingPaymentItem(false)
+        }
         return () => {
             
         };

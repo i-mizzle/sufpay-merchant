@@ -12,6 +12,7 @@ import { clearCreatedPaymentPage, fetchPaymentPages } from '../../../store/actio
 import { SET_SUCCESS } from '../../../store/types'
 import { tableHeadersFields } from '../../../utils'
 import ClipboardCopyIcon from '../../../components/elements/icons/ClipboardCopyIcon'
+import { Link } from 'react-router-dom'
 
 const PaymentPages = () => {
   const paymentPagesSelector = useSelector(state => state.paymentPages)
@@ -102,7 +103,7 @@ const PaymentPages = () => {
       dataSet.forEach((item, itemIndex) => {
         data.push(
           {
-            title: item.title,
+            title: <Link to={`/merchant/payment-pages/${item.id}`}>{item.title}</Link>,
             url:<div className='flex items-center justify-between gap-x-[5px]'>
               <p className='text-xs text-secondary truncate w-[90%]'>{item.url}</p>
               <button className='text-gray-500 transition duration-200 hover:text-gray-600'><ClipboardCopyIcon className={'w-4 h-4'} /></button>

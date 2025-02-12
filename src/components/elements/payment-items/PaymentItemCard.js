@@ -2,6 +2,7 @@ import moment from 'moment'
 import React from 'react'
 import ArrowIcon from '../icons/ArrowIcon'
 import TrashIcon from '../icons/TrashIcon'
+import { Link } from 'react-router-dom'
 
 const PaymentItemCard = ({paymentItem, doDelete}) => {
     const deleteItem = () => {
@@ -26,10 +27,10 @@ const PaymentItemCard = ({paymentItem, doDelete}) => {
                 <p className='font-host-grotesk'>₦{paymentItem.amount.toLocaleString()} {paymentItem.serviceFee && paymentItem.serviceFee > 0 && <span className='text-gray-500 text-xs font-poppins'>- Service Fee ₦{paymentItem.serviceFee.toLocaleString()}</span>}</p>
                 
                 <div className='flex items-center justify-between mt-[20px]'>
-                    <button className='text-secondary hover:text-primary transition duration-200 text-xs flex items-center gap-x-[5px] font-poppins'>
+                    <Link to={`/merchant/payment-items/${paymentItem.id}`} className='text-secondary hover:text-primary transition duration-200 text-xs flex items-center gap-x-[5px] font-poppins'>
                         See item details
                         <ArrowIcon className={`w-4 h-4`} />
-                    </button>
+                    </Link>
                     <button onClick={()=>deleteItem()} className='text-gray-400 hover:text-red-500 bg-transparent hover:bg-red-100 p-[5px] rounded transition duration-200 text-xs flex items-center gap-x-[5px] font-poppins'>
                         <TrashIcon className={`w-5 h-5`} />
                     </button>
