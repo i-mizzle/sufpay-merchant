@@ -109,7 +109,7 @@ const DataTable = ({
             {/* Table */}
             {!tableData || tableData.length === 0 ? 
 
-                <div className='px-44 py-4 text-center'>
+                <div className='px-[10px] xl:px-44 py-4 text-center'>
                     <div className='mx-auto w-max'>
                         <EmptyFolder className={`w-10 h-10 text-gray-400`} />
                     </div>

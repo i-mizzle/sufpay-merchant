@@ -50,7 +50,7 @@ const MerchantHeader = ({createBiller, links}) => {
 
     return (
         <>
-            <div className='w-full fixed xl:relative px-[20px] flex items-center justify-between z-50 bg-white pb-[15px] pt-[15px] -mt-[15px] xl:mt-0'>
+            <div className='w-full fixed xl:relative px-[20px] flex items-center justify-between z-50 bg-white pb-[15px] pt-[15px] xl:pt-0 -mt-[15px] xl:mt-0'>
                 <div className='w-full flex items-center gap-x-[10px]'>
                     <button onClick={()=>{toggleMobileSidebar()}} className='xl:hidden transition duration-200 hover:text-gray-500 text-secondary'>
                         {mobileSidebarActive ? 

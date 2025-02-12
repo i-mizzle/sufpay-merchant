@@ -194,7 +194,7 @@ const Transactions = () => {
               <div className='py-3 mb-5'>
                   <div className="w-full mx-auto">
                       <div className='w-full flex items-center justify-between'>
-                          <div className='w-2/3'>
+                          <div className='w-full xl:w-2/3'>
                               <h4 className='font-medium text-lg mb-1 text-gray-400'>Transactions</h4>
                               <div className=''>
                                   <p className='text-gray-500 mt-1 text-[13px]'>

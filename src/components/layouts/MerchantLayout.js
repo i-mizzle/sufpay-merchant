@@ -150,7 +150,7 @@ const MerchantLayout = ({pageTitle, children}) => {
             businessName={business.billerName}
             links={sidebarLinks}
           />
-          <div className='py-[100px] xl:py-[20px] px-[40px]'>
+          <div className='py-[100px] xl:py-[20px] xl:px-[40px] px-[20px]'>
             {children}
           </div>
         </div>

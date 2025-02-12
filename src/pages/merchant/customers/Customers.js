@@ -128,8 +128,8 @@ const Customers = () => {
         <div className="w-full">
           <div className='py-3 mb-1'>
             <div className="w-full mx-auto">
-              <div className='w-full flex items-center justify-between'>
-                <div className='w-2/3'>
+              <div className='w-full lg:flex items-center justify-between'>
+                <div className='w-full xl:w-2/3'>
                   <h4 className='font-medium text-lg mb-1 text-gray-400'>Customers</h4>
                   <div className=''>
                     <p className='text-gray-500 mt-1 text-[13px]'>
@@ -172,22 +172,39 @@ const Customers = () => {
                   </div>
               : 
               <>
-                  {customersSelector?.customers?.length > 0 ? <DataTable
-                      tableHeaders={tableHeadersFields(cleanupData(customersSelector?.customers)[0])?.headers} 
-                      tableData={cleanupData(customersSelector?.customers)} 
-                      columnWidths={columnWidths}
-                      columnDataStyles={{}}
-                      allFields={tableHeadersFields(cleanupData(customersSelector?.customers)[0]).fields}
-                      onSelectItems={()=>{}}
-                      tableOptions={tableOptions}
-                      pagination={{
-                          perPage, 
-                          currentPage,
-                          totalItems: customersSelector.customers.total,
-                      }}
-                      changePage={updateCurrentPage}
-                      updatePerPage={updatePerPage}
-                  /> :
+                  {customersSelector?.customers?.length > 0 ? 
+                    <>
+                      <div className='hidden lg:block'>
+                        <DataTable
+                            tableHeaders={tableHeadersFields(cleanupData(customersSelector?.customers)[0])?.headers} 
+                            tableData={cleanupData(customersSelector?.customers)} 
+                            columnWidths={columnWidths}
+                            columnDataStyles={{}}
+                            allFields={tableHeadersFields(cleanupData(customersSelector?.customers)[0]).fields}
+                            onSelectItems={()=>{}}
+                            tableOptions={tableOptions}
+                            pagination={{
+                                perPage, 
+                                currentPage,
+                                totalItems: customersSelector.customers.total,
+                            }}
+                            changePage={updateCurrentPage}
+                            updatePerPage={updatePerPage}
+                        /> 
+                      </div>
+
+                      <div className='lg:hidden'>
+                          {customersSelector?.customers?.map((customer, customerIndex)=>(
+                            <div key={customerIndex} className='mb-[15px] w-full p-[15px] border rounded shadow-xl shadow-black/5'>
+                              <h3 className='mb-[5px] '>{customer.name}</h3>
+                              <p className='text-xs text-gray-500'>{customer.emailAddress}, {customer.phoneNumber}</p>
+                              <p className='text-[13px] font-host-grotesk mt-[10px] font-[500]'>₦0 <span className='font-poppins font-[400] text-xs'>(0 transactions)</span></p>
+                              <p className='text-[10px] text-gray-400 mt-[5px]'>Created {new Date(customer.createdAt).toDateString()} - {new Date(customer.createdAt).toLocaleTimeString()}</p>
+                            </div>
+                          ))}
+                      </div>
+                    </>
+                  :
                     <EmptyState emptyStateText={`No customers on your account yet`} />
                   }
               </>
