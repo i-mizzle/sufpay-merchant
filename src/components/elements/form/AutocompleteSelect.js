@@ -102,11 +102,11 @@ const AutocompleteSelect = ({
                 // onBlur={()=>{setIsFocused(false)}}
             >
                 {/* ${isFocused || activeValue !== '' ? '-translate-y-8 bg-white' : 'translate-y-0 bg-gray-100'}   */}
-                <label 
+                {inputLabel && inputLabel !== '' && <label 
                 className={`text-xs cursor-text block bg-transparent relative py-1 transition duration-200  
                 ${hasError ? 'text-red-600' : 'text-gray-500'}`}>
                     {requiredField && requiredField === true && <span className='text-red-600'>*</span>} {inputLabel}
-                </label>
+                </label>}
                 
                 {/* Text input */}
                 <input 

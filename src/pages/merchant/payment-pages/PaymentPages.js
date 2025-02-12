@@ -11,6 +11,7 @@ import DataTable from '../../../components/elements/DataTable'
 import { clearCreatedPaymentPage, fetchPaymentPages } from '../../../store/actions/paymentPagesActions'
 import { SET_SUCCESS } from '../../../store/types'
 import { tableHeadersFields } from '../../../utils'
+import ClipboardCopyIcon from '../../../components/elements/icons/ClipboardCopyIcon'
 
 const PaymentPages = () => {
   const paymentPagesSelector = useSelector(state => state.paymentPages)
@@ -79,9 +80,10 @@ const PaymentPages = () => {
   }, [perPage, currentPage, dispatch, activeFilters, paymentPagesSelector.createdPaymentPage])
 
   const columnWidths = {
-    name: 'w-3/12',
-    emailAddress: 'w-3/12',
-    phoneNumber: 'w-3/12',
+    title: 'w-3/12',
+    url: 'w-3/12',
+    // items: `w-1/12`,
+    totalAmount: 'w-2/12',
     transactions: 'w-2/12',
     dateCreated: 'w-2/12'
   }
@@ -100,9 +102,13 @@ const PaymentPages = () => {
       dataSet.forEach((item, itemIndex) => {
         data.push(
           {
-            name: item.name,
-            emailAddress:item.emailAddress,
-            phoneNumber: item.phoneNumber,
+            title: item.title,
+            url:<div className='flex items-center justify-between gap-x-[5px]'>
+              <p className='text-xs text-secondary truncate w-[90%]'>{item.url}</p>
+              <button className='text-gray-500 transition duration-200 hover:text-gray-600'><ClipboardCopyIcon className={'w-4 h-4'} /></button>
+            </div>,
+            // items: item.items.length,
+            totalAmount: <p className='font-host-grotesk font-[500] text-sc'>₦{item.totalAmount.toLocaleString()}</p>,
             transactions: <p className='text-[13px] font-host-grotesk font-[500]'>₦0 <span className='font-poppins font-[400] text-xs'>(0 transactions)</span></p>,
             dateCreated: `${new Date(item.createdAt).toDateString()} - ${new Date(item.createdAt).toLocaleTimeString()}`,
           },
@@ -161,12 +167,12 @@ const PaymentPages = () => {
                   </div>
               : 
               <>
-                  {paymentPagesSelector?.paymentPages?.length > 0 ? <DataTable
-                      tableHeaders={tableHeadersFields(cleanupData(paymentPagesSelector?.paymentPages)[0])?.headers} 
-                      tableData={cleanupData(paymentPagesSelector?.paymentPages)} 
+                  {paymentPagesSelector?.paymentPages?.paymentPages?.length > 0 ? <DataTable
+                      tableHeaders={tableHeadersFields(cleanupData(paymentPagesSelector?.paymentPages?.paymentPages)[0])?.headers} 
+                      tableData={cleanupData(paymentPagesSelector?.paymentPages?.paymentPages)} 
                       columnWidths={columnWidths}
                       columnDataStyles={{}}
-                      allFields={tableHeadersFields(cleanupData(paymentPagesSelector?.paymentPages)[0]).fields}
+                      allFields={tableHeadersFields(cleanupData(paymentPagesSelector?.paymentPages?.paymentPages)[0]).fields}
                       onSelectItems={()=>{}}
                       tableOptions={tableOptions}
                       pagination={{

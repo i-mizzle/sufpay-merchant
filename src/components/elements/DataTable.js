@@ -203,7 +203,11 @@ const DataTable = ({
                             ))}
                         </ul>
                     ))}
-                    {pagination && <Pagination pagination={pagination} changePage={(page)=>{changePage(page)}} updatePerPage={(perPage)=>{updatePerPage(perPage)}} />}
+                    {pagination && 
+                    <div className='border-t py-[20px] mt-[20px]'>
+                        <Pagination pagination={pagination} changePage={(page)=>{changePage(page)}} updatePerPage={(perPage)=>{updatePerPage(perPage)}} />
+                    </div>
+                    }
                 </div>
             }
         </Fragment>

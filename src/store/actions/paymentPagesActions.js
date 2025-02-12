@@ -1,13 +1,13 @@
 import axios from "axios"
 import { authHeader, baseUrl, activeBusiness } from "../../utils"
-import { CREATE_PAYMENT_PAGE, CREATING_PAYMENT_PAGE, FETCHING_PAYMENT_PAGES, PAYMENT_PAGES_ERROR, UPDATE_PAYMENT_PAGE, UPDATING_PAYMENT_PAGE } from "../types"
+import { CREATE_PAYMENT_PAGE, CREATING_PAYMENT_PAGE, FETCH_PAYMENT_PAGES, FETCHING_PAYMENT_PAGES, PAYMENT_PAGES_ERROR, UPDATE_PAYMENT_PAGE, UPDATING_PAYMENT_PAGE } from "../types"
 
 
 export const fetchPaymentPages = (filterString, page, perPage) => async (dispatch) => {    
     try{
         const headers = authHeader()
 
-        let url = `${baseUrl}/billers/invoices/get/biller/${activeBusiness().id}`
+        let url = `${baseUrl}/billers/payment-pages/get/biller/${activeBusiness().id}`
         if(filterString && filterString !== '') {
             url += `${url.includes('?') ? '&' : '?'}${filterString}`
         }
@@ -28,8 +28,8 @@ export const fetchPaymentPages = (filterString, page, perPage) => async (dispatc
         const response = await axios.get(url, { headers })
 
         dispatch({
-            type: FETCHING_PAYMENT_PAGES,
-            payload: response.data.data
+            type: FETCH_PAYMENT_PAGES,
+            payload: response.data
         })
         
     }
@@ -50,7 +50,7 @@ export const createPaymentPage = (payload) => async (dispatch) => {
             payload: true
         })
 
-        const response = await axios.post(`${baseUrl}/billers/invoices/create`, payload, { headers })
+        const response = await axios.post(`${baseUrl}/billers/payment-pages/create`, payload, { headers })
         
         dispatch({
             type: CREATE_PAYMENT_PAGE,
