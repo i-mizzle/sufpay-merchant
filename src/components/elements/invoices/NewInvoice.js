@@ -125,7 +125,7 @@ const NewInvoice = () => {
 
     return (
         <div className='w-full'>
-            <div className='w-full flex items-start justify-between gap-x-[10px]'>
+            <div className='w-full lg:flex items-start justify-between gap-x-[10px]'>
                 <div className='mt-2 w-full'>
                     <TextField
                         inputLabel="Name" 
@@ -160,7 +160,7 @@ const NewInvoice = () => {
                     />
                 </div>
             </div>
-            <div className='w-full flex items-start justify-between gap-x-[10px]'>
+            <div className='w-full lg:flex items-start justify-between gap-x-[10px]'>
                 <div className='mt-4 w-full'>
                     <TextField
                         inputLabel="Address" 
@@ -172,7 +172,7 @@ const NewInvoice = () => {
                         returnFieldValue={(value)=>{setInvoiceRecipient({...invoiceRecipient, ...{address: value}})}}
                     />
                 </div>
-                <div className='mt-4 w-4/12'>
+                <div className='mt-4 w-full lg:w-4/12'>
                     <DateField
                         inputLabel="Due date" 
                         fieldId="invoice-due-date" 
@@ -188,7 +188,7 @@ const NewInvoice = () => {
             <h3 className='font-[500] text-sufpay-black mt-[15px]'>Invoice Items</h3>
             <p className='text-[13px] text-gray-500'>You can add more items to this invoice by clicking on "add another item" button below.</p>
 
-            <div className='w-full flex items-start justify-between gap-x-[10px]'>
+            <div className='hidden w-full lg:flex items-start justify-between gap-x-[10px]'>
                 <div className='mt-2 w-full'>
                     <p className='text-gray-500 text-xs'>Item </p>
                 </div>
@@ -199,7 +199,7 @@ const NewInvoice = () => {
                     <p className='text-gray-500 text-xs'>Unit price (₦)</p>
                 </div>
             </div>
-            {invoiceItems.map((item, itemIndex)=>(<div key={itemIndex} className='w-full flex items-center justify-between gap-x-[10px]'>
+            {invoiceItems.map((item, itemIndex)=>(<div key={itemIndex} className='w-full lg:flex py-[20px] xl:py-0 border-t items-center justify-between gap-x-[10px]'>
                 <div className='mt-2 w-full'>
                     <TextField
                         fieldId={`item-${itemIndex}-item`} 
@@ -210,7 +210,7 @@ const NewInvoice = () => {
                         returnFieldValue={(value)=>{updateItem(itemIndex, 'item', value)}}
                     />
                 </div>
-                <div className='mt-2 w-[150px]'>
+                <div className='mt-2 w-full xl:w-[150px]'>
                     <NumberField
                         fieldId={`item-${itemIndex}-quantity`} 
                         inputType="text" 
@@ -220,7 +220,7 @@ const NewInvoice = () => {
                         returnFieldValue={(value)=>{updateItem(itemIndex, 'itemQuantity', value)}}
                     />
                 </div>
-                <div className={`mt-2 w-[200px]`}>
+                <div className={`mt-2 w-full xl:w-[200px]`}>
                     <NumberField
                         fieldId={`item-${itemIndex}-price`} 
                         inputType="text" 
@@ -230,9 +230,10 @@ const NewInvoice = () => {
                         returnFieldValue={(value)=>{updateItem(itemIndex, 'unitPrice', value)}}
                     />
                 </div>
-                <div className='w-[50px]'>
-                    {itemIndex > 0 && <button onClick={()=>{removeInvoiceItem(itemIndex)}} className='text-gray-400 hover:text-gray-600 p-[7px] rounded bg-transparent hover:bg-gray-100 transition duration-200'>
+                <div className='lg:w-[50px] mt-[20px] lg:mt-0'>
+                    {itemIndex > 0 && <button onClick={()=>{removeInvoiceItem(itemIndex)}} className='text-gray-400 hover:text-gray-600 p-[7px] rounded bg-transparent hover:bg-gray-100 transition duration-200 flex items-center justify-center gap-x-[5px]'>
                         <TrashIcon className={`w-5 h-5`} />
+                        <span className='lg:hidden text-xs text-gray-400'>Delete item</span>
                     </button>}
                 </div>
             </div>))}
@@ -240,7 +241,7 @@ const NewInvoice = () => {
                 <div className='mt-2 w-full'>
                     <button onClick={()=>{addInvoiceItem(true)}} className='rounded-[8px] px-2 py-2 text-sm text-white bg-sufpay-gray transition duration-200 border border-sufpay-black hover:bg-gray-600 flex items-center justify-center gap-x-1'>
                     <PlusIcon className={`w-5 h-5`} />
-                    Add another item
+                    Add <span className='hidden lg:inline-block'>another item</span>
                     </button>
                 </div>
                 <div className='mt-2 w-[150px] text-right'>

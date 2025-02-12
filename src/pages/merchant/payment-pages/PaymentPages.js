@@ -124,8 +124,8 @@ const PaymentPages = () => {
         <div className="w-full">
           <div className='py-3 mb-1'>
             <div className="w-full mx-auto">
-              <div className='w-full flex items-center justify-between'>
-                <div className='w-2/3'>
+              <div className='w-full lg:flex items-center justify-between'>
+                <div className='w-full xl:w-2/3'>
                   <h4 className='font-medium text-lg mb-1 text-gray-400'>Payment pages</h4>
                   <div className=''>
                     <p className='text-gray-500 mt-1 text-[13px]'>
@@ -145,7 +145,7 @@ const PaymentPages = () => {
                   <div className='w-full flex flex-row-reverse gap-x-2'>
                     <button onClick={()=>{}} className={`text-gray-700 px-3 py-2 hover:bg-gray-100 transition duration-200 text-sm flex items-center justify-center gap-x-2 bg-gray-200 rounded border`}>
                       <ArrowUpTrayIcon className={`w-5 h-5`} />
-                      Export Payment Pages
+                      Export <span className='hidden lg:inline-block'>Payment Pages</span>
                     </button>
                       
                     {/* <button onClick={()=>{setView('grid')}} className={`${view === 'grid' ? 'text-gray-700' : 'text-gray-300'} p-1 rounded hover:bg-gray-100 transition duration-200`}>
@@ -168,22 +168,45 @@ const PaymentPages = () => {
                   </div>
               : 
               <>
-                  {paymentPagesSelector?.paymentPages?.paymentPages?.length > 0 ? <DataTable
-                      tableHeaders={tableHeadersFields(cleanupData(paymentPagesSelector?.paymentPages?.paymentPages)[0])?.headers} 
-                      tableData={cleanupData(paymentPagesSelector?.paymentPages?.paymentPages)} 
-                      columnWidths={columnWidths}
-                      columnDataStyles={{}}
-                      allFields={tableHeadersFields(cleanupData(paymentPagesSelector?.paymentPages?.paymentPages)[0]).fields}
-                      onSelectItems={()=>{}}
-                      tableOptions={tableOptions}
-                      pagination={{
-                          perPage, 
-                          currentPage,
-                          totalItems: paymentPagesSelector?.paymentPages.total,
-                      }}
-                      changePage={(page)=>{setCurrentPage(page)}}
-                      updatePerPage={(perPage)=>{setPerPage(perPage)}}
-                  /> :
+                  {paymentPagesSelector?.paymentPages?.paymentPages?.length > 0 ? 
+                  <>
+                    <div className='hidden lg:block'>
+                      <DataTable
+                          tableHeaders={tableHeadersFields(cleanupData(paymentPagesSelector?.paymentPages?.paymentPages)[0])?.headers} 
+                          tableData={cleanupData(paymentPagesSelector?.paymentPages?.paymentPages)} 
+                          columnWidths={columnWidths}
+                          columnDataStyles={{}}
+                          allFields={tableHeadersFields(cleanupData(paymentPagesSelector?.paymentPages?.paymentPages)[0]).fields}
+                          onSelectItems={()=>{}}
+                          tableOptions={tableOptions}
+                          pagination={{
+                              perPage, 
+                              currentPage,
+                              totalItems: paymentPagesSelector?.paymentPages.total,
+                          }}
+                          changePage={(page)=>{setCurrentPage(page)}}
+                          updatePerPage={(perPage)=>{setPerPage(perPage)}}
+                      /> 
+                    </div>
+
+                    <div className='lg:hidden'>
+                      {paymentPagesSelector?.paymentPages?.paymentPages?.map((page, pageIndex)=>(
+                        <div key={pageIndex} className='mb-[15px] w-full p-[15px] border rounded shadow-xl shadow-black/5'>
+                          <h3 className='mb-[5px] '>{page.title}</h3>
+                          <p className='text-xs text-gray-500'>{page.description}</p>
+                          <div className='flex items-center justify-between gap-x-[5px]'>
+                            <p className='text-xs text-secondary truncate w-[90%]'>{page.url}</p>
+                            {/* <button className='text-gray-500 transition duration-200 hover:text-gray-600'><ClipboardCopyIcon className={'w-4 h-4'} /></button> */}
+                          </div>
+                          <p className='font-host-grotesk font-[500] text-sm mt-[10px]'>₦{page.totalAmount.toLocaleString()}</p>
+                          {/* <p className='text-[13px] font-host-grotesk mt-[10px] font-[500]'>₦0 <span className='font-poppins font-[400] text-xs'>(0 transactions)</span></p> */}
+
+                          <p className='text-[10px] text-gray-400 mt-[5px]'>Created {new Date(page.createdAt).toDateString()} - {new Date(page.createdAt).toLocaleTimeString()}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                  :
                     <EmptyState emptyStateText={`No payment pages on your account yet`} />
                   }
               </>

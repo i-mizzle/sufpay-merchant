@@ -129,8 +129,8 @@ const Invoices = () => {
         <div className="w-full">
           <div className='py-3 mb-1'>
             <div className="w-full mx-auto">
-              <div className='w-full flex items-center justify-between'>
-                <div className='w-2/3'>
+              <div className='w-full lg:flex items-center justify-between'>
+                <div className='w-full xl:w-2/3'>
                   <h4 className='font-medium text-lg mb-1 text-gray-400'>Invoices</h4>
                   <div className=''>
                     <p className='text-gray-500 mt-1 text-[13px]'>
@@ -150,7 +150,7 @@ const Invoices = () => {
                   <div className='w-full flex flex-row-reverse gap-x-2'>
                     <button onClick={()=>{}} className={`text-gray-700 px-3 py-2 hover:bg-gray-100 transition duration-200 text-sm flex items-center justify-center gap-x-2 bg-gray-200 rounded border`}>
                       <ArrowUpTrayIcon className={`w-5 h-5`} />
-                      Export Invoices
+                      Export <span className='hidden xl:inline-block'>Invoices</span>
                     </button>
                       
                     {/* <button onClick={()=>{setView('grid')}} className={`${view === 'grid' ? 'text-gray-700' : 'text-gray-300'} p-1 rounded hover:bg-gray-100 transition duration-200`}>
