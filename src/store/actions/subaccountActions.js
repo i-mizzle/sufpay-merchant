@@ -49,7 +49,7 @@ export const createSubAccount = (payload) => async (dispatch) => {
             payload: true
         })
 
-        const response = await axios.post(`${baseUrl}/invoices/create/with-items`, payload, { headers })
+        const response = await axios.post(`${baseUrl}/payments/settlement-accounts/create`, payload, { headers })
         
         dispatch({
             type: CREATE_SUB_ACCOUNT,

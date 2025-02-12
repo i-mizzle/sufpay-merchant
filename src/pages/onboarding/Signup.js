@@ -91,7 +91,7 @@ const Signup = () => {
     }}
     try {
         // const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/authentication/sign-up`, requestPayload, { headers })      
-        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}:${process.env.REACT_APP_AUTH_PORT}/sign-up`, requestPayload, { headers })      
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/authentication/sign-up`, requestPayload, { headers })      
         console.log(response.data)
         setUserPayload({...userPayload, ...{userCode: response.data.userCode}})
         setAccountCreated(true)   
@@ -199,7 +199,7 @@ const Signup = () => {
                       fieldId="business-name" 
                       inputType="text" 
                       preloadValue={''}
-                      inputPlaceholder={'Active email address'}
+                      inputPlaceholder={'Your business operating name'}
                       hasError={validationErrors && validationErrors.billerName} 
                       returnFieldValue={(value)=>{setUserPayload({...userPayload, ...{billerName: value}})}}
                   />

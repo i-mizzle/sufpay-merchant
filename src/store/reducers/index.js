@@ -8,6 +8,7 @@ import invoicesReducer from "./invoicesReducer";
 import paymentsReducer from "./paymentsReducer";
 import paymentPagesReducer from "./paymentPagesReducer";
 import paymentItemsReducer from "./paymentItemsReducer";
+import subAccountsReducer from "./subAccountsReducer";
 
 const rootReducer = combineReducers({
     success: successReducer,
@@ -18,8 +19,8 @@ const rootReducer = combineReducers({
     invoices: invoicesReducer,
     payments: paymentsReducer,
     paymentPages: paymentPagesReducer,
-    paymentItems: paymentItemsReducer
-
+    paymentItems: paymentItemsReducer,
+    subAccounts: subAccountsReducer
 });
 
 export default rootReducer;

@@ -10,10 +10,11 @@ import Filters from '../../../components/elements/Filters'
 import { SET_SUCCESS } from '../../../store/types'
 import { useDispatch, useSelector } from 'react-redux'
 import NewSubAccount from '../../../components/elements/sub-accounts/NewSubAccount'
+import { clearCreatedSubAccount } from '../../../store/actions/subaccountActions'
 
 const SubAccounts = () => {
   const dispatch = useDispatch()
-  const customersSelector = useSelector(state => state.customers)
+  const subAccountsSelector = useSelector(state => state.subAccounts)
   const [perPage, setPerPage] = useState(25)
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -75,15 +76,15 @@ const SubAccounts = () => {
 ]
   useEffect(() => {
     // dispatch(fetchCustomers(activeFilters, currentPage, perPage))
-    if(customersSelector.createdCustomer && customersSelector.createdCustomer !== null){
-      // dispatch(clearCreatedCustomer())
+    if(subAccountsSelector.createdSubAccount && subAccountsSelector.createdSubAccount !== null){
+      dispatch(clearCreatedSubAccount())
       dispatch({
         type: SET_SUCCESS,
-        payload: 'New customer created successfully'
+        payload: 'New sub-account created successfully'
       })
       setCreatingCustomer(false)
     }
-  }, [perPage, currentPage, dispatch, activeFilters, customersSelector.createdCustomer])
+  }, [perPage, currentPage, dispatch, activeFilters, subAccountsSelector.createdSubAccount])
 
   const columnWidths = {
     reference: 'w-2/12',
@@ -178,25 +179,25 @@ const SubAccounts = () => {
           </div>
 
           {/* <div className=''>
-            {customersSelector.loadingCustomers
+            {subAccountsSelector.loadingCustomers
               ? 
                   <div className='w-full'>
                       <Loader />
                   </div>
               : 
               <>
-                  {customersSelector?.customers?.length > 0 ? <DataTable
-                      tableHeaders={tableHeadersFields(cleanupData(customersSelector?.customers)[0])?.headers} 
-                      tableData={cleanupData(customersSelector?.customers)} 
+                  {subAccountsSelector?.subAccounts?.length > 0 ? <DataTable
+                      tableHeaders={tableHeadersFields(cleanupData(subAccountsSelector?.subAccounts)[0])?.headers} 
+                      tableData={cleanupData(subAccountsSelector?.subAccounts)} 
                       columnWidths={columnWidths}
                       columnDataStyles={{}}
-                      allFields={tableHeadersFields(cleanupData(customersSelector?.customers)[0]).fields}
+                      allFields={tableHeadersFields(cleanupData(subAccountsSelector?.subAccounts)[0]).fields}
                       onSelectItems={()=>{}}
                       tableOptions={tableOptions}
                       pagination={{
                           perPage, 
                           currentPage,
-                          totalItems: customersSelector.customers.total,
+                          totalItems: subAccountsSelector.subAccounts.total,
                       }}
                       changePage={updateCurrentPage}
                       updatePerPage={updatePerPage}

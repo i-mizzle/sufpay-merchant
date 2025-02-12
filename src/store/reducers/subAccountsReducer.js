@@ -1,4 +1,4 @@
-import { FETCH_SUB_ACCOUNTS, FETCHING_SUB_ACCOUNTS, SUB_ACCOUNTS_ERROR } from "../types";
+import { CREATE_SUB_ACCOUNT, CREATING_SUB_ACCOUNT, FETCH_SUB_ACCOUNTS, FETCHING_SUB_ACCOUNTS, SUB_ACCOUNTS_ERROR } from "../types";
 
 
 const initialState = {
@@ -9,7 +9,7 @@ const initialState = {
     subAccountsError: null,
 };
   
-const transactionsReducer = (state = initialState, action) => {
+const subAccountsReducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCHING_SUB_ACCOUNTS:
         return { 
@@ -19,6 +19,15 @@ const transactionsReducer = (state = initialState, action) => {
         return { 
             loadingSubAccounts: false,
             subAccounts: action.payload  
+        };
+        case CREATING_SUB_ACCOUNT:
+        return { 
+            creatingSubAccount: action.payload 
+        };
+        case CREATE_SUB_ACCOUNT:
+        return { 
+            creatingSubAccount: false,
+            createdSubAccount: action.payload  
         };
         case SUB_ACCOUNTS_ERROR:
         return { 
@@ -30,4 +39,4 @@ const transactionsReducer = (state = initialState, action) => {
     }
 };
   
-export default transactionsReducer;
+export default subAccountsReducer;
