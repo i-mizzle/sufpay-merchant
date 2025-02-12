@@ -144,7 +144,7 @@ const Signup = () => {
 
   return (
     <div className='w-full flex items-start min-h-screen justify-between'>
-      <div className='h-screen w-1/3 bg-primary py-[20px] px-[50px] relative'>
+      <div className='h-screen w-1/3 hidden xl:block bg-primary py-[20px] px-[50px] relative'>
         <Logo color={`#fff`} size={`150px`} />
 
         <div className='absolute left-[50px] bottom-[50px] w-[80%]'>
@@ -173,8 +173,8 @@ const Signup = () => {
           </div>
         </div>
       </div>
-      <div className='h-screen w-2/3 bg-white py-[30px] px-[50px]'>
-        <div className='flex flex-row-reverse w-full gap-x-[10px] items-center'>
+      <div className='h-screen w-full xl:w-2/3 bg-white py-[30px] px-[50px]'>
+        <div className='hidden xl:flex flex-row-reverse w-full gap-x-[10px] items-center'>
           <Link to={'/'} className='flex items-center justify-between gap-x-[10px] text-white bg-secondary rounded-[8px] p-[15px] text-xs font-[500]'>
             Sign in here
             <ChevronIcon className={`w-4 h-4 rotate-180`} thickness={2} />
@@ -182,9 +182,13 @@ const Signup = () => {
           <p className='text-[13px] text-gray-500'>Already have an account?</p>
         </div>
 
+        <div className='xl:hidden'>
+          <Logo color={`#fff`} size={`150px`} />
+        </div>
+
         {!accountCreated ? 
-          <div className='h-[90%] w-full flex items-center justify-center'>
-            <div className='w-6/12 min-h-[500px] h-inherit'>
+          <div className='min-h-[90%] h-inherit mt-[50px] xl:mt-0 w-full flex items-center justify-center'>
+            <div className='w-full xl:w-6/12 min-h-[500px] h-inherit'>
               <h3 className='text-[18px] font-[500] text-sufpay-black'>Start receiving payments for your business</h3>
               <div className='w-[40px] h-[3px] bg-secondary my-[10px]' />
               <p className='text-[13px] text-gray-500'>
@@ -232,7 +236,7 @@ const Signup = () => {
                 }
 
                 <h3 className="mt-[10px] text-sufpay-black text-[15px] text-">Your Information.</h3>
-                <div className='w-full flex items-center justify-between gap-x-[20px]'>
+                <div className='w-full lg:flex items-center justify-between gap-x-[20px]'>
                   <div className='mt-2 w-full'>
                     <TextField
                       inputLabel="First name" 
@@ -257,7 +261,7 @@ const Signup = () => {
                     />
                   </div>
                 </div>
-                <div className='w-full flex items-center justify-between gap-x-[20px]'>
+                <div className='w-full lg:flex items-center justify-between gap-x-[20px]'>
                   <div className='w-full mt-4'>
                     <TextField
                       inputLabel="Email address" 
@@ -283,7 +287,7 @@ const Signup = () => {
                   </div>
                 </div>
 
-              <div className='mt-5'>
+              <div className='mt-5 mb-5'>
                   <FormButton buttonLabel={<span className='flex items-center justify-between gap-x-[10px] text-white bg-transparent text-[13px] font-[500]'>Get Started <ChevronIcon className={`w-3 h-3 rotate-180`} thickness={4} /></span>} buttonAction={()=>{signup()}} processing={processing} />
               </div>
             </div>
@@ -316,6 +320,14 @@ const Signup = () => {
             </div>
           </div>
           }
+
+          <div className='flex xl:hidden mt-[20px] flex-row w-full gap-x-[10px] items-center pb-10'>
+              <p className='text-[13px] text-gray-500'>Already have an account?</p>
+              <Link to={`/`} className='flex items-center justify-center gap-x-[10px] text-secondary text-xs font-[500]'>
+                Sign in here
+                <ChevronIcon className={`w-4 h-4 rotate-180`} thickness={2} />
+              </Link>
+            </div>
       </div>
     </div>
   )
