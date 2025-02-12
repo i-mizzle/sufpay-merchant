@@ -40,7 +40,7 @@ const Pagination = ({pagination, changePage, updatePerPage}) => {
         25, 50, 75, 100
     ]
   return (
-    <div className='w-full flex flex-row items-center justify-between py-10'>
+    <div className='w-full flex flex-row items-center justify-between pb-10'>
         <div className='flex flex-row items-center gap-x-2'>
             <button onClick={()=>{firstPage()}} className='rounded bg-secondary bg-opacity-10 text-secondary text-xs py-2 px-2 transition duration-200 hover:bg-opacity-20'>
                 First page

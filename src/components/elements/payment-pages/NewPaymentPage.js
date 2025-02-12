@@ -43,7 +43,7 @@ const NewPaymentPage = () => {
         setPageItems(newItems);
     }
 
-const [validationErrors, setValidationErrors] = useState({});
+    const [validationErrors, setValidationErrors] = useState({});
 
     const validateForm = () => {
         let errors = {}

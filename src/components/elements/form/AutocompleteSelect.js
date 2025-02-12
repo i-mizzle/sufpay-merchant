@@ -127,7 +127,7 @@ const AutocompleteSelect = ({
             </div>
             {/* Options */}
             {optionsOpen &&
-                <div className='absolute top-[90px] border w-full left-0 py-3 bg-white overflow-y-scroll pt-5 z-50' style={{maxHeight: '350px', paddingBottom:'15px'}}>
+                <div className='absolute top-[75px] border w-full left-0 py-3 bg-white overflow-y-scroll pt-5 z-50' style={{maxHeight: '350px', paddingBottom:'15px'}}>
                     {/* <button className='absolute top-3 right-3 text-gray-600 hover:text-gray-400 transition duration-200' onClick={()=>{closeOptions()}}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -137,7 +137,7 @@ const AutocompleteSelect = ({
                         {visibleOptions.map((option, optionIndex) => (
                             <button key={optionIndex} 
                                 className={
-                                    `relative w-full px-5 py-4 my-1 flex flex-row text-left items-center gap-x-3 text-sm transition duration-200 hover:bg-gray-100 
+                                    `relative w-full px-4 py-3 flex flex-row text-left items-center gap-x-3 text-sm transition duration-200 hover:bg-gray-100 
                                     ${conditionalItemStyling && option[conditionalItemStyling.conditionTriggerKey] == true 
                                         ? conditionalItemStyling.classes 
                                         : 'text-gray-500'}`
