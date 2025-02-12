@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import StaticSidebar from '../partials/StaticSidebar'
 import Sidebar from '../partials/Sidebar'
 import MerchantHeader from '../partials/MerchantHeader'
@@ -134,15 +134,23 @@ const MerchantLayout = ({pageTitle, children}) => {
     <>
       <div className='w-full flex items-start justify-between'>
         {/* static sidebar */}
-        <StaticSidebar state={sidebarState} toggleSidebarState={()=>{toggleSidebar()}} />
+        <span className="hidden xl:block">
+          <StaticSidebar state={sidebarState} toggleSidebarState={()=>{toggleSidebar()}} />
+        </span>
 
         {/* variable sidebar */}
-        {sidebarState === 'open' && <Sidebar links={sidebarLinks} />}
+        <span className="hidden xl:block">
+          {sidebarState === 'open' && <Sidebar links={sidebarLinks} />}
+        </span>
         
         {/* main */}
-        <div className={`${sidebarState === 'open' ? 'ml-[360px]' : 'ml-[60px]'} w-full py-[10px]`}>
-          <MerchantHeader createBiller={()=>{setCreatingBiller(true)}} businessName={business.billerName} />
-          <div className='py-[20px] px-[40px]'>
+        <div className={`${sidebarState === 'open' ? 'xl:ml-[360px]' : 'xl:ml-[60px]'} w-full py-[10px] bg-white mt-0`}>
+          <MerchantHeader 
+            createBiller={()=>{setCreatingBiller(true)}}
+            businessName={business.billerName}
+            links={sidebarLinks}
+          />
+          <div className='py-[100px] xl:py-[20px] px-[40px]'>
             {children}
           </div>
         </div>

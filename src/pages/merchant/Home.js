@@ -22,7 +22,7 @@ const Home = () => {
   return (
     <MerchantLayout>
         <div className='w-full h-screen flex justify-center'>
-          <div className='w-2/3 mt-[100px]'>
+          <div className='w-full xl:w-2/3 mt-[100px]'>
             <img src={ChartIcon} alt='' className='mx-auto w-[100px] mb-[20px]' />
             <h3 className='text-lg font-[500] text-sufpay-black text-center mb-[10px]'>Welcome to Sufpay</h3>
             <p className='text-[13px] mb-[10px]'>
@@ -32,7 +32,7 @@ const Home = () => {
               To help you get started quickly, here are the keys you will need to integrate payments on our platform. You can click <a className='font-[500] text-success' href='https://google.com'>here</a> to see our documentation
             </p>
 
-            <div className='w-10/12 mx-auto'>
+            <div className='w-full xl:w-10/12 mx-auto'>
               {/* <div className='w-full flex items-end justify-between gap-x-[5px] mb-[20px]'>
                 <div className='w-full'>
                   <TextField
