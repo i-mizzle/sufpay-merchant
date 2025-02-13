@@ -3,8 +3,9 @@ import React from 'react'
 import ArrowIcon from '../icons/ArrowIcon'
 import TrashIcon from '../icons/TrashIcon'
 import { Link } from 'react-router-dom'
+import PencilSquareIcon from '../icons/PencilSquareIcon'
 
-const PaymentItemCard = ({paymentItem, doDelete}) => {
+const PaymentItemCard = ({paymentItem, doDelete, hideLink, hideEdit}) => {
     const deleteItem = () => {
         if(window.confirm(`The payment item ${paymentItem.name} will be deleted. Are you sure you want to proceed?`)) {
             doDelete(paymentItem.id)
@@ -16,21 +17,25 @@ const PaymentItemCard = ({paymentItem, doDelete}) => {
 
             </div>
             <div className='p-[10px]'>
-                <h3 className='mt-[10px]'>{paymentItem.name}</h3>
+                <h3 className='mt-[10px]'>{paymentItem?.name}</h3>
                 <div className='flex items-center justify-between'>
                     <p className='text-sm mt-[5px] uppercase tracking-[0.1em]'>{paymentItem.itemCode}</p>
                     <p className='text-gray-400 text-[10px]'>Created {moment(paymentItem.createdAt).format('MMMM Do YYYY')}</p>
                 </div>
                 <p className='text-xs mt-[5px]'>{paymentItem.description}</p>
-                <p className='text-xs mt-[5px]'>{paymentItem?.category || ''}</p>
+                <p className='text-xs my-[10px]'>Category: {paymentItem?.category?.name || ''}</p>
 
                 <p className='font-host-grotesk'>₦{paymentItem.amount.toLocaleString()} {paymentItem.serviceFee && paymentItem.serviceFee > 0 && <span className='text-gray-500 text-xs font-poppins'>- Service Fee ₦{paymentItem.serviceFee.toLocaleString()}</span>}</p>
                 
                 <div className='flex items-center justify-between mt-[20px]'>
-                    <Link to={`/merchant/payment-items/${paymentItem.id}`} className='text-secondary hover:text-primary transition duration-200 text-xs flex items-center gap-x-[5px] font-poppins'>
+                    {!hideLink && <Link to={`/merchant/payment-items/${paymentItem.id}`} className='text-secondary hover:text-primary transition duration-200 text-xs flex items-center gap-x-[5px] font-poppins'>
                         See item details
                         <ArrowIcon className={`w-4 h-4`} />
-                    </Link>
+                    </Link>}
+                    {!hideEdit && <Link to={`/merchant/payment-items/${paymentItem.id}`} className='text-secondary hover:text-primary text-xs flex items-center gap-x-[5px] font-poppins bg-transparent hover:bg-gray-100 p-[5px] rounded transition duration-200'>
+                        Edit item details
+                        <PencilSquareIcon className={`w-4 h-4`} />
+                    </Link>}
                     <button onClick={()=>deleteItem()} className='text-gray-400 hover:text-red-500 bg-transparent hover:bg-red-100 p-[5px] rounded transition duration-200 text-xs flex items-center gap-x-[5px] font-poppins'>
                         <TrashIcon className={`w-5 h-5`} />
                     </button>
