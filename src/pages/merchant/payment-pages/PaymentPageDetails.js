@@ -55,13 +55,13 @@ const PaymentPageDetails = () => {
 
             <div className='w-full mb-[20px]'>
               <label className='text-[10px] tracking-[0.1em] uppercase block mb-[7px]'>Page description</label>
-              <p>{paymentPageDetails.description}</p>
+              <p className='text-[13px]'>{paymentPageDetails.description}</p>
             </div>
 
             <div className='w-full mb-[20px]'>
               <label className='text-[10px] tracking-[0.1em] uppercase block mb-[7px]'>Page URL</label>
-              <div className='flex items-center w-full justify-between gap-x-[5px]'>
-                <p className='text-xs text-secondary truncate w-[90%]'>{paymentPageDetails.url}</p>
+              <div className='flex items-start w-full justify-between gap-x-[5px]'>
+                <p className='text-xs text-secondary text-wrap w-[90%]'>https://sufpay-invoicing-payments.vercel.app/payments/{paymentPageDetails.id}</p>
                 <button className='text-gray-500 transition duration-200 hover:text-gray-600'><ClipboardCopyIcon className={'w-4 h-4'} /></button>
               </div>
             </div>
@@ -85,8 +85,8 @@ const PaymentPageDetails = () => {
             </div>
           </div>
           <div className='w-8/12 min-h-[90vh] h-inherit bg-gray-100 p-[30px] rounded'>
-            <h3>Payment page purchases/transactions</h3>
-            <p className='text-xs mt-[10px]'>A list of purchases on this payment page. you can click on a transaction to see more details</p>
+            <h3>Payment Item purchases/transactions</h3>
+            <p className='text-xs mt-[10px]'>A list of purchases for this payment item. you can click on a transaction to see more details</p>
 
             <div className='mt-[20px]'>
               <DataTable

@@ -105,7 +105,7 @@ const PaymentPages = () => {
           {
             title: <Link to={`/merchant/payment-pages/${item.id}`}>{item.title}</Link>,
             url:<div className='flex items-center justify-between gap-x-[5px]'>
-              <p className='text-xs text-secondary truncate w-[90%]'>{item.url}</p>
+              <p className='text-xs text-secondary truncate w-[250px]'>https://sufpay-invoicing-payments.vercel.app/payments/{item.id}</p>
               <button className='text-gray-500 transition duration-200 hover:text-gray-600'><ClipboardCopyIcon className={'w-4 h-4'} /></button>
             </div>,
             // items: item.items.length,
