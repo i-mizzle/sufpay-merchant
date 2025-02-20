@@ -29,7 +29,7 @@ const Status = ({status}) => {
     {status === "SUCCESSFUL" &&
         <span className="px-2 py-1 rounded text-green-600 font-medium bg-green-400 bg-opacity-10 block text-xs">
             {/* <CheckIcon /> */}
-            Paid
+            Successful
         </span>
     }
     {status === "SIGNED_OFF" &&

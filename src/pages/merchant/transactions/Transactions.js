@@ -11,6 +11,8 @@ import Loader from '../../../components/elements/Loader'
 import DataTable from '../../../components/elements/DataTable'
 import ArrowUpTrayIcon from '../../../components/elements/icons/ArrowUpTrayIcon'
 import Filters from '../../../components/elements/Filters'
+import { fetchTransactions } from '../../../store/actions/transactionsActions'
+import EmptyState from '../../../components/elements/EmptyState'
 
 const Transactions = () => {
   const [transactionDialogOpen, setTransactionDialogOpen] = useState(false)
@@ -31,13 +33,12 @@ const Transactions = () => {
 
 
   useEffect(() => {
-      
-      // dispatch(fetchPayments('', currentPage, perPage))
+    dispatch(fetchTransactions('', currentPage, perPage))
   }, [perPage, currentPage, dispatch])
 
   const TransactionLink = ({reference, index}) => {
       return (
-          <button className='text-gray-500 font-medium' onClick={() => {openTransaction(index)}}>{reference}</button>
+          <button className='text-gray-500 font-medium text-[13px] truncate text-left w-[160px]' onClick={() => {openTransaction(index)}}>{reference}</button>
       )
   }
   
@@ -47,42 +48,34 @@ const Transactions = () => {
 
   const transactionColumnWidths = {
       reference: 'w-2/12',
-      paymentFor: 'w-3/12',
+      paymentFor: 'w-2/12',
       status: 'w-1/12',
       paidBy: 'w-2/12',
-      amount: 'w-1/12',
+      amount: 'w-2/12',
+      type: 'w-1/12',
       timeStamp: 'w-2/12',
-      '': 'w-1/12'
   }
 
   const cleanupData = (dataSet) => {
-    if(!dataSet) return
-      const data = []
-  
-      dataSet.forEach((item, itemIndex) => {
-          data.push(
-              {
-                  reference: <TransactionLink reference={item.transaction.transactionReference} index={itemIndex} />,
-                  paymentFor: <p>{item.fee?.name}: {item.application?.applicationCode}</p>,
-                  status: <Status status={item.transaction.status} />,
-                  paidBy: <div><p>{item.createdBy.name}</p><p className='text-sm text-gray-500 number'>
-                      {item.createdBy.email}
-                  </p></div>,
-                  amount: <TransactionAmount amount={item.fee.amount ?  item.fee.amount : 0} />,
-                  timeStamp: `${new Date(item.createdAt).toDateString()} - ${new Date(item.createdAt).toLocaleTimeString()}`,
-                  '': item.applied ? 
-                  <> 
-                      <span className={`inline-block text-xs px-2 py-1 rounded bg-gray-600 text-gray-500 bg-opacity-10 font-outfit capitalize`}>Used</span>
-                  </> 
-                  : 
-                  <>
-                      <span className={`inline-block text-xs px-2 py-1 rounded bg-green-500 text-green-800 bg-opacity-10 font-outfit capitalize`}>Unused</span>
-                  </>
-              },
-          )
-      })
-  
-      return data
+        if(!dataSet) return
+        const data = []
+        console.log('data to clean --> ', dataSet)
+        const rawData = dataSet.data || dataSet
+        rawData.forEach((item, itemIndex) => {
+            data.push(
+                {
+                    reference: <TransactionLink reference={item.uniqueTransactionRef} index={itemIndex} />,
+                    paymentFor: <p>{item.invoiceId ? 'Invoice' : item.paymentPageId ? 'Payment page' : ''}</p>,
+                    status: <Status status={item.status} />,
+                    paidBy: item.customerEmailAddress,
+                    type: item.paymentType,
+                    amount: <TransactionAmount amount={item.totalAmount} />,
+                    timeStamp: `${new Date(item.createdAt).toDateString()} - ${new Date(item.createdAt).toLocaleTimeString()}`,
+                },
+            )
+        })
+    
+        return data
   }
 
   const openTransaction = (transactionIndex) => {
@@ -232,28 +225,34 @@ const Transactions = () => {
               </div>
 
               <div className=''>
-                  {transactionsSelector.loadingPayments 
+                  {transactionsSelector.loadingTransactions 
                       ? 
                           <div className='w-full'>
                               <Loader />
                           </div>
                       : 
-                          <DataTable
-                              tableHeaders={tableHeadersFields(cleanupData(transactionsSelector.transactions)[0])?.headers} 
-                              tableData={cleanupData(transactionsSelector?.transactions)} 
-                              columnWidths={transactionColumnWidths}
-                              columnDataStyles={columnDataStyles}
-                              allFields={tableHeadersFields(cleanupData(transactionsSelector.transactions)[0]).fields}
-                              onSelectItems={getSelectionCount}
-                              tableOptions={tableOptions}
-                              pagination={{
-                                  perPage, 
-                                  currentPage,
-                                  totalItems: transactionsSelector.transactions.total,
-                              }}
-                              changePage={updateCurrentPage}
-                              updatePerPage={updatePerPage}
-                          />
+                        <>
+                            {transactionsSelector?.transactions?.data?.length > 0 ? <DataTable
+                                tableHeaders={tableHeadersFields(cleanupData(transactionsSelector.transactions.data)[0])?.headers} 
+                                tableData={cleanupData(transactionsSelector?.transactions?.data)} 
+                                columnWidths={transactionColumnWidths}
+                                columnDataStyles={columnDataStyles}
+                                allFields={tableHeadersFields(cleanupData(transactionsSelector.transactions)[0]).fields}
+                                onSelectItems={getSelectionCount}
+                                tableOptions={tableOptions}
+                                pagination={{
+                                    perPage, 
+                                    currentPage,
+                                    totalItems: transactionsSelector?.transactions?.total || 0,
+                                }}
+                                changePage={updateCurrentPage}
+                                updatePerPage={updatePerPage}
+                            />
+                            :
+                                <EmptyState emptyStateText={`No transactions on your account yet`} />
+
+                            }
+                        </>
                   }
               </div>
           </div>

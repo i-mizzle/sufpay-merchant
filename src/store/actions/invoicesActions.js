@@ -1,6 +1,6 @@
 import axios from "axios"
 import { authHeader, baseUrl, activeBusiness } from "../../utils"
-import { CREATE_INVOICE, CREATING_INVOICE, FETCHING_INVOICES, INVOICES_ERROR, UPDATE_INVOICE, UPDATING_INVOICE } from "../types"
+import { CREATE_INVOICE, CREATING_INVOICE, FETCH_INVOICES, FETCHING_INVOICES, INVOICES_ERROR, UPDATE_INVOICE, UPDATING_INVOICE } from "../types"
 
 export const fetchInvoices = (filterString, page, perPage) => async (dispatch) => {    
     try{
@@ -27,8 +27,8 @@ export const fetchInvoices = (filterString, page, perPage) => async (dispatch) =
         const response = await axios.get(url, { headers })
 
         dispatch({
-            type: FETCHING_INVOICES,
-            payload: response.data.data
+            type: FETCH_INVOICES,
+            payload: response.data
         })
         
     }

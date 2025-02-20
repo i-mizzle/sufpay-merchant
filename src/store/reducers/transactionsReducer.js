@@ -10,7 +10,7 @@ const transactionsReducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCHING_TRANSACTIONS:
         return { 
-            loadingCategories: action.payload 
+            loadingTransactions: action.payload 
         };
         case FETCH_TRANSACTIONS:
         return { 

@@ -88,10 +88,12 @@ const Invoices = () => {
   }, [perPage, currentPage, dispatch, activeFilters, invoicesSelector.createdInvoice])
 
   const columnWidths = {
-    name: 'w-3/12',
-    emailAddress: 'w-3/12',
-    phoneNumber: 'w-3/12',
+    customer: 'w-4/12',
+    amount: 'w-1/12',
+    discount: 'w-1/12',
+    serviceFee: 'w-1/12',
     transactions: 'w-2/12',
+    dueDate: 'w-2/12',
     dateCreated: 'w-2/12'
   }
 
@@ -109,11 +111,18 @@ const Invoices = () => {
       dataSet.forEach((item, itemIndex) => {
         data.push(
           {
-            name: item.name,
-            emailAddress:item.emailAddress,
-            phoneNumber: item.phoneNumber,
+            customer: <div>
+              <p className='font-medium text-[13px]'>{item.customer.name}</p>
+              <p className='font-[400] text-xs'>{item.customer.emailAddress}, {item.customer.phoneNumber}</p>
+            </div>,
+            // emailAddress:item.emailAddress,
+            // phoneNumber: item.phoneNumber,
+            amount: <p className='text-[13px] font-medium font-space-grotesk'>N{item.total.toLocaleString()}</p>,
+            discount: `${item.discountType=== 'FIXED' ? 'N' : ''}${item.discountValue}${item.discountType=== 'PERCENTAGE' ? '%' : ''}`,
+            serviceFee: <p className='text-[13px]'>N{item.serviceTotal}</p>,
             transactions: <p className='text-[13px] font-host-grotesk font-[500]'>₦0 <span className='font-poppins font-[400] text-xs'>(0 transactions)</span></p>,
-            dateCreated: `${new Date(item.createdAt).toDateString()} - ${new Date(item.createdAt).toLocaleTimeString()}`,
+            dueDate: `${new Date(item.dueDate).toDateString()}`,
+            dateCreated: `${new Date(item.createdAt).toDateString()}`,
           },
         )
       })

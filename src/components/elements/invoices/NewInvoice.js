@@ -120,7 +120,7 @@ const NewInvoice = () => {
             hasDueDate: invoiceDueDate && invoiceDueDate !== '',
             dueDate: invoiceDueDate,
             discountType: discountType || undefined,
-            discountValue: discount
+            discountValue: discount || undefined
         }
         
 
