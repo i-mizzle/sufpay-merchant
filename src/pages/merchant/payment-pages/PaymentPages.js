@@ -13,6 +13,7 @@ import { SET_SUCCESS } from '../../../store/types'
 import { tableHeadersFields } from '../../../utils'
 import ClipboardCopyIcon from '../../../components/elements/icons/ClipboardCopyIcon'
 import { Link } from 'react-router-dom'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 const PaymentPages = () => {
   const paymentPagesSelector = useSelector(state => state.paymentPages)
@@ -106,7 +107,18 @@ const PaymentPages = () => {
             title: <Link to={`/merchant/payment-pages/${item.id}`}>{item.title}</Link>,
             url:<div className='flex items-center justify-between gap-x-[5px]'>
               <p className='text-xs text-secondary truncate w-[250px]'>https://sufpay-invoicing-payments.vercel.app/payments/{item.id}</p>
-              <button className='text-gray-500 transition duration-200 hover:text-gray-600'><ClipboardCopyIcon className={'w-4 h-4'} /></button>
+              {/* <button className='text-gray-500 transition duration-200 hover:text-gray-600'>
+                <ClipboardCopyIcon className={'w-4 h-4'} />
+              </button> */}
+              <CopyToClipboard text={`https://sufpay-invoicing-payments.vercel.app/payments/${item.id}`}
+                onCopy={() =>  dispatch({
+                    type: SET_SUCCESS,
+                    payload: `Payment page url copied to clipboard`
+                })}>
+                <button className='text-gray-500 transition duration-200 hover:text-gray-600'>
+                  <ClipboardCopyIcon className={'w-4 h-4'} />
+                </button>
+              </CopyToClipboard>
             </div>,
             // items: item.items.length,
             totalAmount: <p className='font-host-grotesk font-[500] text-sc'>₦{item.totalAmount.toLocaleString()}</p>,
@@ -145,7 +157,7 @@ const PaymentPages = () => {
                   <div className='w-full flex flex-row-reverse gap-x-2'>
                     <button onClick={()=>{}} className={`text-gray-700 px-3 py-2 hover:bg-gray-100 transition duration-200 text-sm flex items-center justify-center gap-x-2 bg-gray-200 rounded border`}>
                       <ArrowUpTrayIcon className={`w-5 h-5`} />
-                      Export <span className='hidden lg:inline-block'>Payment Pages</span>
+                      Export<span className='hidden text-gray-700 font-host-grotesk lg:inline-block'>Payment Pages</span>
                     </button>
                       
                     {/* <button onClick={()=>{setView('grid')}} className={`${view === 'grid' ? 'text-gray-700' : 'text-gray-300'} p-1 rounded hover:bg-gray-100 transition duration-200`}>

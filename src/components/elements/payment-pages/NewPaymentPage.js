@@ -97,7 +97,7 @@ const NewPaymentPage = () => {
         return errors
     }
 
-    const pushInvoice = () => {
+    const pushPaymentPage = () => {
         if (Object.values(validateForm()).includes(true)) {
             dispatch({
                 type: ERROR,
@@ -290,7 +290,7 @@ const NewPaymentPage = () => {
 
             <div className='mt-5 flex flex-row-reverse pt-5 border-t'>
                 <div className='w-[200px]'>
-                    <FormButton buttonLabel={`Create payment page`} buttonAction={()=>{pushInvoice()}} processing={paymentPagesSelector.creatingPaymentPage} />
+                    <FormButton buttonLabel={`Create payment page`} buttonAction={()=>{pushPaymentPage()}} processing={paymentPagesSelector.creatingPaymentPage} />
                 </div>
             </div>
         </div>

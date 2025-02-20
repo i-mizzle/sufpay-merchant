@@ -148,7 +148,7 @@ const PaymentItems = () => {
                                 <div className='w-full flex flex-row-reverse gap-x-2'>
                                     <button onClick={()=>{}} className={`text-gray-700 px-3 py-2 hover:bg-gray-100 transition duration-200 text-sm flex items-center justify-center gap-x-2 bg-gray-200 rounded border`}>
                                     <ArrowUpTrayIcon className={`w-5 h-5`} />
-                                        Export Payment Items
+                                        Export <span className='hidden text-gray-700 font-host-grotesk lg:inline-block'>Payment Items</span>
                                     </button>
                                     
                                     {/* <button onClick={()=>{setView('grid')}} className={`${view === 'grid' ? 'text-gray-700' : 'text-gray-300'} p-1 rounded hover:bg-gray-100 transition duration-200`}>

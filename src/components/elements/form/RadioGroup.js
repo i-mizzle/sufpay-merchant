@@ -12,7 +12,7 @@ const RadioGroup = ({items, returnSelected, hasError, inputLabel, requiredField,
     return (
         <>
             <label 
-                className={`text-sm lg:text-md cursor-text z-10 relative py-1 transition duration-200  
+                className={`text-xs lg:text-md cursor-text z-10 relative py-1 transition mb-1 block duration-200  
                 ${hasError ? 'text-red-600' : 'text-gray-500'}`}
             >
              {requiredField && requiredField === true && <span className='text-red-600'>*</span>}   {inputLabel}
@@ -22,11 +22,11 @@ const RadioGroup = ({items, returnSelected, hasError, inputLabel, requiredField,
                 <div onClick={()=>{selectOption(itemIndex, item)}} key={itemIndex} className='w-max flex items-center gap-x-2 my-3 py-1 cursor-pointer'>
                     <button 
                             className={`flex items-center justify-center rounded-full w-5 h-5 border-2 transition duration-200 text-white bg-white 
-                            ${hasError ? 'border-red-600' : 'border-vcm-purple'}`
+                            ${hasError ? 'border-red-600' : 'border-sufpay-gray'}`
                         } 
                         onClick={()=>{selectOption(itemIndex, item)}}
                     >
-                        {selectedOption === itemIndex && <div className='w-2 h-2 transition duration-200 rounded-full bg-vcm-purple'></div>}
+                        {selectedOption === itemIndex && <div className='w-2 h-2 transition duration-200 rounded-full bg-accent'></div>}
                     </button>
                     
                     <label className={`text-sm cursor-pointer ${hasError ? 'text-red-600' : 'text-black'}`}>

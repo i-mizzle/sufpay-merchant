@@ -10,32 +10,38 @@ import { ERROR } from '../../../store/types';
 import { createInvoice } from '../../../store/actions/invoicesActions';
 import { activeBusiness, sanitizePayload } from '../../../utils';
 import { Switch } from '@headlessui/react';
+import RadioGroup from '../form/RadioGroup';
+import InlinePreloader from '../InlinePreloader';
+import AutocompleteSelect from '../form/AutocompleteSelect';
+import { fetchPaymentItems } from '../../../store/actions/paymentItemsActions';
 
 const NewInvoice = () => {
     const dispatch = useDispatch()
+    const paymentItemsSelector = useSelector(state => state.paymentItems)
     const invoicesSelector = useSelector(state => state.invoices)
     const [invoiceRecipient, setInvoiceRecipient] = useState({});
 
     const invoiceItem = {
-        itemQuantity: '',
-        itemName: '',
-        unitPrice: ''
+        quantity: '',
+        id: ''
     }
 
     const [invoiceItems, setInvoiceItems] = useState([invoiceItem]);
 
     useEffect(() => {
+        dispatch(fetchPaymentItems())
         return () => {
             
         };
-    }, [invoiceItems]);
+    }, [dispatch]);
 
 
     const invoiceTotal = () => {
-        return invoiceItems.reduce((a, b) => a + (b.unitPrice * b.itemQuantity || 0), 0)
+        return invoiceItems.reduce((a, b) => a + (b.unitPrice * b.quantity || 0), 0)
     }
 
     const updateItem = (index, field, value) => {
+        console.log(index, field, value)
         const newItems = [...invoiceItems];
         newItems[index][field] = value
         setInvoiceItems(newItems)
@@ -76,11 +82,11 @@ const NewInvoice = () => {
         }
 
         invoiceItems.forEach((item, itemIndex) => {
-            if(!item.item || item.item === ''){
+            if(!item.id || item.id === ''){
                 errors[`item-${itemIndex}-item`] = true
             }
 
-            if(!item.itemQuantity || item.itemQuantity === ''){
+            if(!item.quantity || item.quantity === ''){
                 errors[`item-${itemIndex}-quantity`] = true
             }
 
@@ -107,14 +113,14 @@ const NewInvoice = () => {
         
         const payload = {
             billerId: activeBusiness().id,
-            items: invoiceItems,
+            items: sanitizePayload(invoiceItems),
             customer: invoiceRecipient,
             total: invoiceTotal(),
             totalService: 0,
             hasDueDate: invoiceDueDate && invoiceDueDate !== '',
             dueDate: invoiceDueDate,
-            discountType: 'FIXED',
-            discountValue: 0
+            discountType: discountType || undefined,
+            discountValue: discount
         }
         
 
@@ -122,6 +128,14 @@ const NewInvoice = () => {
     }
 
     const [addDiscount, setAddDiscount] = useState(false);
+
+    const discountTypes = [
+        {label: 'Percentage', value: 'PERCENTAGE'},
+        {label: 'Fixed Amount', value: 'FIXED'},
+    ]
+
+    const [discount, setDiscount] = useState(null);
+    const [discountType, setDiscountType] = useState('');
 
     return (
         <div className='w-full'>
@@ -201,14 +215,41 @@ const NewInvoice = () => {
             </div>
             {invoiceItems.map((item, itemIndex)=>(<div key={itemIndex} className='w-full lg:flex py-[20px] xl:py-0 border-t items-center justify-between gap-x-[10px]'>
                 <div className='mt-2 w-full'>
-                    <TextField
+                    {/* <TextField
                         fieldId={`item-${itemIndex}-item`} 
                         inputType="text" 
                         preloadValue={''}
                         inputPlaceholder={'Item name/description'}
                         hasError={validationErrors && validationErrors[`item-${itemIndex}-item`]} 
                         returnFieldValue={(value)=>{updateItem(itemIndex, 'item', value)}}
-                    />
+                    /> */}
+                    {paymentItemsSelector?.loadingPaymentItems ? 
+                        <div className='w-max mx-auto'>
+                            <InlinePreloader /> 
+                        </div>
+                        :
+                        <>
+                            {paymentItemsSelector?.paymentItems?.length > 0 && <div className='w-full'>
+                                <AutocompleteSelect
+                                    selectOptions={paymentItemsSelector?.paymentItems}
+                                    titleField="name"
+                                    displayImage={false}
+                                    imageField=""
+                                    placeholderText={`Select item`}
+                                    // preSelectedIndex={complexions.findIndex(item => item.value === applicationPayload.complexion)}
+                                    preSelectedIndex={null}
+                                    fieldId="account-bank"
+                                    hasError={validationErrors && validationErrors[`item-${itemIndex}-item`]}
+                                    returnFieldValue={(value) => {
+                                        updateItem(itemIndex, 'id', value.id)
+                                        updateItem(itemIndex, 'unitPrice', value.amount + value.serviceFee)
+                                        updateItem(itemIndex, 'serviceFee', value.serviceFee)
+                                    }}
+                                    requiredField={true}
+                                />
+                            </div>}
+                        </>
+                    }
                 </div>
                 <div className='mt-2 w-full xl:w-[150px]'>
                     <NumberField
@@ -217,10 +258,10 @@ const NewInvoice = () => {
                         preloadValue={''}
                         inputPlaceholder={'Valid Customer/Business Email Address'}
                         hasError={validationErrors && validationErrors[`item-${itemIndex}-quantity`]} 
-                        returnFieldValue={(value)=>{updateItem(itemIndex, 'itemQuantity', value)}}
+                        returnFieldValue={(value)=>{updateItem(itemIndex, 'quantity', value)}}
                     />
                 </div>
-                <div className={`mt-2 w-full xl:w-[200px]`}>
+                {/* <div className={`mt-2 w-full xl:w-[200px]`}>
                     <NumberField
                         fieldId={`item-${itemIndex}-price`} 
                         inputType="text" 
@@ -229,6 +270,13 @@ const NewInvoice = () => {
                         hasError={validationErrors && validationErrors[`item-${itemIndex}-price`]} 
                         returnFieldValue={(value)=>{updateItem(itemIndex, 'unitPrice', value)}}
                     />
+                </div> */}
+                <div className={`mt-2 w-[200px]`}>
+                    <div className='w-full text-right'>
+                        <p className='text-sm font-host-grotesk'>
+                            ₦{item.unitPrice?.toLocaleString() || 0}
+                        </p>
+                    </div>
                 </div>
                 <div className='lg:w-[50px] mt-[20px] lg:mt-0'>
                     {itemIndex > 0 && <button onClick={()=>{removeInvoiceItem(itemIndex)}} className='text-gray-400 hover:text-gray-600 p-[7px] rounded bg-transparent hover:bg-gray-100 transition duration-200 flex items-center justify-center gap-x-[5px]'>
@@ -241,14 +289,14 @@ const NewInvoice = () => {
                 <div className='mt-2 w-full'>
                     <button onClick={()=>{addInvoiceItem(true)}} className='rounded-[8px] px-2 py-2 text-sm text-white bg-sufpay-gray transition duration-200 border border-sufpay-black hover:bg-gray-600 flex items-center justify-center gap-x-1'>
                     <PlusIcon className={`w-5 h-5`} />
-                    Add <span className='hidden lg:inline-block'>another item</span>
+                    Add <span className='hidden text-white font-host-grotesk lg:inline-block'>another item</span>
                     </button>
                 </div>
                 <div className='mt-2 w-[150px] text-right'>
                     <p className='text-gray-500 text-xs'>Total Due: </p>
                 </div>
                 <div className='mt-2 w-[200px]'>
-                    <span className='p-3 block bg-gray-100 font-host-grotesk font-[500] text-sm rounded w-full'>₦{invoiceTotal().toLocaleString() || ''}</span>
+                    <span className='p-3 block bg-gray-100 font-host-grotesk font-[500] text-sm rounded w-full'>₦{invoiceTotal()?.toLocaleString() || ''}</span>
                 </div>
                 <div className='w-[50px]' />
             </div>
@@ -278,7 +326,32 @@ const NewInvoice = () => {
                 </div>
             </div>
 
-            {addDiscount && <div className=''>
+            {addDiscount && <div className='w-full'>
+            <div className='flex items-start justify-between gap-x-[10px]'>
+                <div className='mt-2 w-full'>
+                    <RadioGroup 
+                        items={discountTypes} 
+                        inline={true}
+                        preSelectedIndex={discountTypes.findIndex(item => item.value === discountType)}
+                        inputLabel={'Discount Type'}
+                        requiredField={true}
+                        returnSelected={(value) => {setDiscountType(value.value)}} 
+                        hasError={validationErrors && validationErrors.type}  
+                        titleField='label'
+                    />
+                </div>
+                <div className={`mt-2 w-full`}>
+                    <NumberField
+                        inputLabel={'Discount Amount'}
+                        fieldId={`discount-amount`} 
+                        inputType="text" 
+                        preloadValue={''}
+                        inputPlaceholder={'Discount for this invoice'}
+                        hasError={validationErrors && validationErrors.discount} 
+                        returnFieldValue={(value)=>{setDiscount(value)}}
+                    />
+                </div>
+            </div>
 
             </div>}
 
