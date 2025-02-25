@@ -16,6 +16,9 @@ import Countdown from '../../components/elements/Countdown'
 import SuccessIcon from '../../assets/img/icons/success.svg'
 import SelectField from '../../components/elements/form/SelectField'
 import { fetchBillerCategories } from '../../store/actions/billerActions'
+import { debounce } from '../../utils'
+import CheckIcon from '../../components/elements/icons/CheckIcon'
+import CloseIcon from '../../components/elements/icons/CloseIcon'
 
 const Signup = () => {
   const dispatch = useDispatch()
@@ -52,7 +55,7 @@ const Signup = () => {
         errors.phone = true
     }
 
-    if(!userPayload.billerName || userPayload.billerName === '') {
+    if(!userPayload.billerName || userPayload.billerName === '' || !businessNameAvailable) {
         errors.billerName = true
     }
 
@@ -142,6 +145,32 @@ const Signup = () => {
     }
   }
 
+  const [businessNameAvailable, setBusinessNameAvailable] = useState(false);
+  const [validatingBusinessName, setValidatingBusinessName] = useState(false);
+
+  const validateBusinessName = debounce(async (name) => {
+    const headers = {
+      'Content-Type': 'application/json'
+    }
+
+    setValidatingBusinessName(true)
+
+    const requestPayload = {userCode: userPayload.userCode}
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/billers/biller/validate/name?name=${name}`, requestPayload, { headers })      
+        
+        setBusinessNameAvailable(response.data.data.valid)
+        setValidatingBusinessName(false)
+    } catch (error) {
+        console.log(error)
+        dispatch({
+            type: ERROR,
+            error
+        })
+        setValidatingBusinessName(false)
+    }
+  })
+
   return (
     <div className='w-full flex items-start min-h-screen justify-between'>
       <div className='h-screen w-1/3 hidden xl:block bg-primary py-[20px] px-[50px] relative'>
@@ -197,7 +226,18 @@ const Signup = () => {
                 <h3 className="mt-[10px] text-sufpay-black text-[15px] mb-1">Your Business.</h3>
                 <p className="text-xs text-gray-600">You can manage multiple businesses on this platform and it gives you an easy way to switch between businesses at any time. Please provide details of a business.</p>
 
-                <div className='mt-2'>
+                <div className='mt-2 relative'>
+                  {userPayload.billerName && userPayload.billerName !== '' && <>
+                      <span className="absolute top-[40px] right-[20px]">       {validatingBusinessName && <InlinePreloader />}
+                    </span>
+                    <span className="absolute top-[40px] right-[20px]">       {!validatingBusinessName && businessNameAvailable && <CheckIcon className="w-5 h-5 text-success" />}
+                    </span>
+                    <span className="absolute top-[5px] right-0 text-[10px] text-red-500">         {!validatingBusinessName && !businessNameAvailable && "Name unavailable"}
+                    </span>
+                    <span className="absolute top-[40px] right-[20px]">         {!validatingBusinessName && !businessNameAvailable && <CloseIcon className="w-5 h-5 text-red-500" />}
+                    </span>
+                  </>
+                  }
                   <TextField
                       inputLabel="Business Name" 
                       fieldId="business-name" 
@@ -205,7 +245,10 @@ const Signup = () => {
                       preloadValue={''}
                       inputPlaceholder={'Your business operating name'}
                       hasError={validationErrors && validationErrors.billerName} 
-                      returnFieldValue={(value)=>{setUserPayload({...userPayload, ...{billerName: value}})}}
+                      returnFieldValue={(value)=>{
+                        setUserPayload({...userPayload, ...{billerName: value}})
+                        validateBusinessName(value)
+                      }}
                   />
                   <label className='block mt-2 text-xs text-gray-400'>Your business needs not be registered with CAC. But an unregistered business will have limits on the amounts they can process on sufpay</label>
                 </div>
