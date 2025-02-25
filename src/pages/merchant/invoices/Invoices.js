@@ -11,12 +11,14 @@ import { tableHeadersFields } from '../../../utils'
 import EmptyState from '../../../components/elements/EmptyState'
 import ModalDialog from '../../../components/layouts/ModalDialog'
 import NewInvoice from '../../../components/elements/invoices/NewInvoice'
+import { useNavigate } from 'react-router-dom'
 
 const Invoices = () => {
   const dispatch = useDispatch()
   const invoicesSelector = useSelector(state => state.invoices)
   const [perPage, setPerPage] = useState(25)
   const [currentPage, setCurrentPage] = useState(1)
+  const navigate = useNavigate()
 
   const updatePerPage = (count) => {
       setPerPage(count)
@@ -100,7 +102,9 @@ const Invoices = () => {
   const tableOptions = {
     selectable: false,
     clickableRows: true,
-    rowAction: (index)=>{}
+    rowAction: (index)=>{
+      navigate(invoicesSelector?.invoices[index].id)
+    }
   }
 
 
@@ -115,8 +119,6 @@ const Invoices = () => {
               <p className='font-medium text-[13px]'>{item.customer.name}</p>
               <p className='font-[400] text-xs'>{item.customer.emailAddress}, {item.customer.phoneNumber}</p>
             </div>,
-            // emailAddress:item.emailAddress,
-            // phoneNumber: item.phoneNumber,
             amount: <p className='text-[13px] font-medium font-space-grotesk'>N{item.total.toLocaleString()}</p>,
             discount: `${item.discountType=== 'FIXED' ? 'N' : ''}${item.discountValue}${item.discountType=== 'PERCENTAGE' ? '%' : ''}`,
             serviceFee: <p className='text-[13px]'>N{item.serviceTotal}</p>,

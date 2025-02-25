@@ -59,30 +59,28 @@ const Transactions = () => {
   const cleanupData = (dataSet) => {
         if(!dataSet) return
         const data = []
-        console.log('data to clean --> ', dataSet)
         const rawData = dataSet.data || dataSet
         rawData.forEach((item, itemIndex) => {
-            data.push(
-                {
-                    reference: <TransactionLink reference={item.uniqueTransactionRef} index={itemIndex} />,
-                    paymentFor: <p>{item.invoiceId ? 'Invoice' : item.paymentPageId ? 'Payment page' : ''}</p>,
-                    status: <Status status={item.status} />,
-                    paidBy: item.customerEmailAddress,
-                    type: item.paymentType,
-                    amount: <TransactionAmount amount={item.totalAmount} />,
-                    timeStamp: `${new Date(item.createdAt).toDateString()} - ${new Date(item.createdAt).toLocaleTimeString()}`,
-                },
-            )
+            data.push({
+                reference: <TransactionLink reference={item.uniqueTransactionRef} index={itemIndex} />,
+                paymentFor: <p>{item.invoiceId ? 'Invoice' : item.paymentPageId ? 'Payment page' : ''}</p>,
+                status: <Status status={item.status} />,
+                paidBy: item.customerEmailAddress,
+                type: item.paymentType,
+                amount: <TransactionAmount amount={item.totalAmount} />,
+                timeStamp: `${new Date(item.createdAt).toDateString()} - ${new Date(item.createdAt).toLocaleTimeString()}`,
+            })
         })
     
         return data
   }
 
   const openTransaction = (transactionIndex) => {
-      setTransactionDialogOpen(true)
-      setActiveDialogTransaction(transactionIndex)
-      console.log(transactionDialogOpen)
-      console.log(activeDialogTransaction)
+    console.log(transactionIndex)
+    setActiveDialogTransaction(transactionsSelector?.transactions?.data[transactionIndex])
+    setTimeout(() => {
+        setTransactionDialogOpen(true)
+    }, 200);
   }
 
   // const closeTransaction = () => {
@@ -271,13 +269,13 @@ const Transactions = () => {
                       <div className="w-1/2">
                           <label className='text-xs block mb-3 text-opacity-40'>Reference</label>
                           <p className="text-xs font-medium">
-                              {transactionsSelector?.payments?.payments[activeDialogTransaction]?.transaction?.transactionReference}
+                              {activeDialogTransaction.uniqueTransactionRef}
                           </p>
                       </div>
                       <div className="w-1/2"> 
                           <label className='text-xs block mb-2 text-opacity-40'>Status</label>
                           <div className='flex flex-row items-center gap-x-2'>
-                              <Status status={transactionsSelector?.payments?.payments[activeDialogTransaction]?.transaction?.status} />
+                              <Status status={activeDialogTransaction?.status} />
                           </div>
                       </div>
                   </div>
@@ -286,30 +284,30 @@ const Transactions = () => {
                       <div className="w-1/2">
                           <label className='text-xs block mb-3 text-opacity-40'>Time stamp</label>
                           <p className="text-xs font-medium">
-                          {transactionTimeStamp(transactionsSelector?.payments?.payments[activeDialogTransaction]?.createdAt)?.date} - {transactionTimeStamp(transactionsSelector.payments.payments[activeDialogTransaction]?.createdAt).time}
+                          {transactionTimeStamp(activeDialogTransaction?.createdAt)?.date} - {transactionTimeStamp(activeDialogTransaction?.createdAt).time}
                           </p>
                       </div>
                       <div className="w-1/2">
                           <label className='text-xs block mb-2 text-opacity-40'>Amount</label>
-                          <p className="font-medium text-xl text-gray-700">N {transactionsSelector?.payments?.payments[activeDialogTransaction]?.fee?.amount ? (transactionsSelector?.payments?.payments[activeDialogTransaction]?.fee?.amount/100)?.toLocaleString() : 0 }</p>
+                          <p className="font-medium text-xl text-gray-700">N {activeDialogTransaction?.totalAmount?.toLocaleString() || 0 }</p>
                       </div>
                   </div>
 
-                  <div className='w-full flex flex-row py-3 border-b border-secondary'>
+                  {/* <div className='w-full flex flex-row py-3 border-b border-secondary'>
                       <div className="w-1/2">
                           <label className='text-xs block mb-3 text-opacity-40'>Payment for</label>
                           <p className="text-xs font-medium">
-                           {transactionsSelector?.payments?.payments[activeDialogTransaction]?.fee.name}
+                           {transactionsSelector?.transactions?.data[activeDialogTransaction]?.fee.name}
                           </p>
                       </div>
                       <div className="w-1/2">
                           <label className='text-xs block mb-2 text-opacity-40'>Item</label>
-                          <p className="font-medium text-sm">{transactionsSelector?.payments?.payments[activeDialogTransaction]?.application?.applicationCode }</p>
-                          <Link to={`/admin/applications/${transactionsSelector?.payments?.payments[activeDialogTransaction]?.application?._id}`}>
+                          <p className="font-medium text-sm">{transactionsSelector?.transactions?.data[activeDialogTransaction]?.application?.applicationCode }</p>
+                          <Link to={`/admin/applications/${transactionsSelector?.transactions?.data[activeDialogTransaction]?.application?._id}`}>
                               <button className='text-xs flex flex-row items-center gap-x-3 mt-1 text-vcm-purple hover:text-gray-400 transition duration-200'>See application details <ArrowIcon className={`w-5 h-5`} /></button> 
                           </Link>
                       </div>
-                  </div>
+                  </div> */}
 
                   <div className='w-full border-b border-secondary py-3'>
                       <label className='text-xs block mb-3 text-opacity-40'>Transaction initiated by</label>
@@ -318,8 +316,7 @@ const Transactions = () => {
                               <UserIcon  className="w-10 h-10"/>
                           </div>
                           <div>
-                              <p className="text-sm mb-2 font-bold">{transactionsSelector?.payments?.payments[activeDialogTransaction]?.createdBy?.name}</p>
-                              <p className="text-xs font-medium">{transactionsSelector?.payments?.payments[activeDialogTransaction]?.createdBy?.email}</p>
+                              <p className="text-sm mb-2 font-bold">{activeDialogTransaction.customerEmailAddress}</p>
                           </div>
                       </div>
                   </div>
