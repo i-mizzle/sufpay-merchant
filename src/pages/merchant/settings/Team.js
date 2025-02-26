@@ -112,7 +112,7 @@ const Team = () => {
 
             <div className='w-full grid grid-cols-3 gap-[10px]'>
               {pendingInvites.map((invite, inviteIndex) => (
-                <div className='w-full bg-gray-50 p-[15px] rounded flex items-center justify-between'>
+                <div key={inviteIndex} className='w-full bg-gray-50 p-[15px] rounded flex items-center justify-between'>
                   <div className='w-full'>
                     <p className='font-[500] text-[13px]'>{invite.emailAddress}</p>
                     <p className='font-[400] text-[11px]'>{new Date(invite.createdAt).toDateString()}</p>
