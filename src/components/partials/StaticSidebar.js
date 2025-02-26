@@ -4,7 +4,7 @@ import LogoutIcon from '../elements/icons/LogoutIcon'
 import UserIcon from '../elements/icons/UserIcon'
 import { defaultSidebarState } from '../../utils'
 import BarsIcon from '../elements/icons/BarsIcon'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 // import axios from 'axios'
 import { ERROR } from '../../store/types'
@@ -13,7 +13,9 @@ import CogIcon from '../elements/icons/CogIcon'
 const StaticSidebar = ({toggleSidebarState}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const location = useLocation()
 
+    const currentRoute = location.pathname;
     const signOut = async (token) => {    
         try{
         // const headers = authHeader()
@@ -45,12 +47,16 @@ const StaticSidebar = ({toggleSidebarState}) => {
             </button>
 
             <div className='flex flex-col items-center gap-y-[30px]'>
-                <button className='transition duration-200 hover:text-gray-100 text-white'>
+                {/* <button className='transition duration-200 hover:text-gray-100 text-white'>
                     <UserIcon className={`w-7 h-7`} />
-                </button>
-                <button className='transition duration-200 hover:text-gray-100 text-white'>
+                </button> */}
+
+                <NavLink 
+                    to={`/merchant/settings`} 
+                    className={`${currentRoute.includes('merchant/settings') ? 'text-accent' : 'text-white' } transition duration-200 hover:text-gray-100 `}>
                     <CogIcon className={`w-7 h-7`} />
-                </button>
+                </NavLink>
+
                 <button onClick={()=>{signOut()}} className='transition duration-200 hover:text-gray-100 text-white -ml-[5px]'>
                     <LogoutIcon className={`w-7 h-7 rotate-180`} />
                 </button>

@@ -35,6 +35,11 @@ import PaymentPageDetails from './pages/merchant/payment-pages/PaymentPageDetail
 import PaymentItems from './pages/merchant/payment-items/PaymentItems';
 import PaymentItemDetails from './pages/merchant/payment-items/PaymenItemDetails';
 import SubAccounts from './pages/merchant/sub-accounts/SubAccounts';
+import Settings from './pages/merchant/settings/Settings';
+import UserProfile from './pages/merchant/settings/UserProfile';
+import BusinessProfile from './pages/merchant/settings/BusinessProfile';
+import MerchantKeys from './pages/merchant/settings/MerchantKeys';
+import Team from './pages/merchant/settings/Team';
 
 export default function App() {
   return (
@@ -66,6 +71,16 @@ export default function App() {
             
             <Route path="/merchant/payment-items" element={<PaymentItems />} />
             <Route path="/merchant/payment-items/:paymentItemId" element={<PaymentItemDetails />} />
+
+            <Route path="/merchant/settings" element={<Settings />}>
+              <Route path="/merchant/settings" element={<Navigate replace to="/merchant/settings/user-profile" />} />
+              <Route path="/merchant/settings/user-profile" element={<UserProfile />} />
+              <Route path="/merchant/settings/business-profile" element={<BusinessProfile />} />
+              <Route path="/merchant/settings/merchant-keys" element={<MerchantKeys />} />
+              <Route path="/merchant/settings/team" element={<Team />} />
+
+            </Route>
+            
 
             <Route path="/merchant/*" element={<MerchantErrorPage />} />
           </Route>

@@ -6,7 +6,7 @@ import RocketIcon from '../elements/icons/RocketIcon'
 import { activeBusiness, userDetails } from '../../utils'
 import CloseIcon from '../elements/icons/CloseIcon'
 import BarsIcon from '../elements/icons/BarsIcon'
-import { NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 
 const MerchantHeader = ({createBiller, links}) => {
     const location = useLocation();
@@ -72,10 +72,10 @@ const MerchantHeader = ({createBiller, links}) => {
                             iconClasses="rounded-full w-[32px] h-[32px]"
                         />
                     </div>
-                    <button className='bg-success text-white p-[10px] text-sm font-[500] hover:bg-green-700 flex items-center xl:min-w-[175px] justify-center gap-x-[3px] transition duration-200 rounded-[8px] w-min'>
+                    <Link to={`/merchant/settings/business-profile`} className='bg-success text-white p-[10px] text-sm font-[500] hover:bg-green-700 flex items-center xl:min-w-[175px] justify-center gap-x-[3px] transition duration-200 rounded-[8px] w-min'>
                         <span className='hidden xl:inline-block text-white text-sm'>Request Go-live</span>
                         <RocketIcon className={`w-5 h-5`} />
-                    </button>
+                    </Link>
 
                 </div>
             </div>

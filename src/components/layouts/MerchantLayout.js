@@ -121,8 +121,8 @@ const MerchantLayout = ({pageTitle, children}) => {
                 title: 'Support Tickets',
                 Icon: SupportIcon,
                 // Icon: Wallet2Icon,
-                route: '/admin/care-home-settings',
-                activeCheck: '/admin/care-home-settings'
+                route: '/merchant/support',
+                activeCheck: '/merchant/support'
             },
           ]
         }
