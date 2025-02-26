@@ -9,6 +9,7 @@ import paymentsReducer from "./paymentsReducer";
 import paymentPagesReducer from "./paymentPagesReducer";
 import paymentItemsReducer from "./paymentItemsReducer";
 import subAccountsReducer from "./subAccountsReducer";
+import teammatesReducer from "./teamReducer";
 
 const rootReducer = combineReducers({
     success: successReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
     payments: paymentsReducer,
     paymentPages: paymentPagesReducer,
     paymentItems: paymentItemsReducer,
-    subAccounts: subAccountsReducer
+    subAccounts: subAccountsReducer,
+    team: teammatesReducer
 });
 
 export default rootReducer;

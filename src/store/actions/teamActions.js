@@ -1,6 +1,6 @@
 import axios from "axios"
 import { authHeader, baseUrl, activeBusiness } from "../../utils"
-import { CREATE_TEAMMATE, CREATING_TEAMMATE, FETCH_TEAMMATES, FETCHING_TEAMMATES, TEAMMATES_ERROR, UPDATE_TEAMMATE, UPDATING_TEAMMATE } from "../types"
+import { CREATE_TEAMMATE, CREATING_TEAMMATE, FETCH_INVITES, FETCH_TEAMMATES, FETCHING_INVITES, FETCHING_TEAMMATES, TEAMMATES_ERROR, UPDATE_TEAMMATE, UPDATING_TEAMMATE } from "../types"
 
 export const fetchPendingInvites = (page, perPage) => async (dispatch) => {    
     try{
@@ -17,15 +17,14 @@ export const fetchPendingInvites = (page, perPage) => async (dispatch) => {
         }
 
         dispatch( {
-            type: FETCHING_TEAMMATES,
+            type: FETCHING_INVITES,
             payload: true
         })
 
         const response = await axios.get(url, { headers })
-
         dispatch({
-            type: FETCH_TEAMMATES,
-            payload: response.data.data
+            type: FETCH_INVITES,
+            payload: response.data
         })
         
     }
@@ -63,7 +62,7 @@ export const fetchTeammates = (filterString, page, perPage) => async (dispatch) 
 
         dispatch({
             type: FETCH_TEAMMATES,
-            payload: response.data.data
+            payload: response.data
         })
         
     }
@@ -88,7 +87,7 @@ export const inviteTeammate = (payload) => async (dispatch) => {
         
         dispatch({
             type: CREATE_TEAMMATE,
-            payload: response.data.data
+            payload: response.data
         })
         
     }

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import TextField from '../form/TextField'
 import FormButton from '../form/FormButton'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ERROR } from '../../../store/types'
 import { activeBusiness, userDetails } from '../../../utils'
 import { inviteTeammate } from '../../../store/actions/teamActions'
 
 const NewTeammate = () => {
     const dispatch = useDispatch()
+    const teamSelector = useSelector(state => state.team)
     useEffect(() => {
         console.log(userDetails())
         return () => {
@@ -80,7 +81,7 @@ const NewTeammate = () => {
                 />
             </div> */}
             <div className='mt-5'>
-                <FormButton buttonLabel={`Create Customer`} buttonAction={()=>{pushInvitation()}} processing={false} />
+                <FormButton buttonLabel={`Invite Teammate`} buttonAction={()=>{pushInvitation()}} processing={teamSelector.invitingTeammate} />
             </div>
         </div>
     )
