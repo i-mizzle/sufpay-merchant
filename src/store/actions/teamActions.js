@@ -2,11 +2,46 @@ import axios from "axios"
 import { authHeader, baseUrl, activeBusiness } from "../../utils"
 import { CREATE_TEAMMATE, CREATING_TEAMMATE, FETCH_TEAMMATES, FETCHING_TEAMMATES, TEAMMATES_ERROR, UPDATE_TEAMMATE, UPDATING_TEAMMATE } from "../types"
 
+export const fetchPendingInvites = (page, perPage) => async (dispatch) => {    
+    try{
+        const headers = authHeader()
+
+        let url = `${baseUrl}/authentication/invites/get/biller/${activeBusiness().id}?status=PENDING`
+
+        if(page && page!=='') {
+            url += `${url.includes('?') ? '&' : '?'}pagenumber=${page}`
+        }
+
+        if(perPage && perPage!=='') {
+            url += `${url.includes('?') ? '&' : '?'}pagesize=${perPage}`
+        }
+
+        dispatch( {
+            type: FETCHING_TEAMMATES,
+            payload: true
+        })
+
+        const response = await axios.get(url, { headers })
+
+        dispatch({
+            type: FETCH_TEAMMATES,
+            payload: response.data.data
+        })
+        
+    }
+    catch(error){
+        dispatch( {
+            type: TEAMMATES_ERROR,
+            error
+        })
+    }
+}
+
 export const fetchTeammates = (filterString, page, perPage) => async (dispatch) => {    
     try{
         const headers = authHeader()
 
-        let url = `${baseUrl}/invoicing/invoices/biller/${activeBusiness().id}`
+        let url = `${baseUrl}/authentication/users/get/biller/${activeBusiness().id}`
         if(filterString && filterString !== '') {
             url += `${url.includes('?') ? '&' : '?'}${filterString}`
         }

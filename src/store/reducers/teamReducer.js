@@ -1,8 +1,10 @@
-import { CREATE_TEAMMATE, CREATING_TEAMMATE, FETCH_TEAMMATES, FETCHING_TEAMMATES, TEAMMATES_ERROR } from "../types";
+import { CREATE_TEAMMATE, CREATING_TEAMMATE, FETCH_INVITES, FETCH_TEAMMATES, FETCHING_INVITES, FETCHING_TEAMMATES, TEAMMATES_ERROR } from "../types";
 
 const initialState = {
     loadingTeammates: true,
     teammates: [],
+    loadingInvites: true,
+    invites: [],
     invitingTeammate: false,
     invitedTeammate: null,
     teammatesError: null,
@@ -18,6 +20,15 @@ const teammatesReducer = (state = initialState, action) => {
         return { 
             invitingTeammate: false,
             invitedTeammate: action.payload  
+        };
+        case FETCHING_INVITES:
+        return { 
+            loadingInvites: action.payload 
+        };
+        case FETCH_INVITES:
+        return { 
+            loadingInvites: false,
+            invites: action.payload  
         };
         case FETCHING_TEAMMATES:
         return { 
