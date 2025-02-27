@@ -1,8 +1,9 @@
 import React from 'react'
+import MerchantLayout from '../../../components/layouts/MerchantLayout'
 
 const SupportTicket = () => {
   return (
-    <div>SupportTicket</div>
+    <MerchantLayout>SupportTicket</MerchantLayout>
   )
 }
 

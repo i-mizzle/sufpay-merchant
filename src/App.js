@@ -40,6 +40,8 @@ import UserProfile from './pages/merchant/settings/UserProfile';
 import BusinessProfile from './pages/merchant/settings/BusinessProfile';
 import MerchantKeys from './pages/merchant/settings/MerchantKeys';
 import Team from './pages/merchant/settings/Team';
+import SupportTickets from './pages/merchant/support/SupportTickets';
+import SupportTicket from './pages/merchant/support/SupportTicket';
 
 export default function App() {
   return (
@@ -71,6 +73,9 @@ export default function App() {
             
             <Route path="/merchant/payment-items" element={<PaymentItems />} />
             <Route path="/merchant/payment-items/:paymentItemId" element={<PaymentItemDetails />} />
+            
+            <Route path="/merchant/support" element={<SupportTickets />} />
+            <Route path="/merchant/support/:ticketId" element={<SupportTicket />} />
 
             <Route path="/merchant/settings" element={<Settings />}>
               <Route path="/merchant/settings" element={<Navigate replace to="/merchant/settings/user-profile" />} />
